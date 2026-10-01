@@ -1,3 +1,9 @@
 {
-
+  "footer-content": {
+    "product": "Product",
+    "features": "Features",
+    "pricing": "Pricing Plans",
+    "howItWorks": "How It Works",
+    "contact": "Contact"
+  }
 }
