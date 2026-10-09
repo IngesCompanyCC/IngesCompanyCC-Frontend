@@ -1,114 +1,111 @@
 <template>
 ﻿<section class="page">
   <app-page-header
-    [breadcrumb]="['shell.workspace' | translate, 'environments.production.short' | translate, 'nav.production-overview' | translate]"
-    [title]="'nav.production-overview' | translate"
-    [subtitle]="'manufacturing.overview.subtitle' | translate: {name: firstName()}">
-    <a mat-flat-button routerLink="/production/batches">+ {{ 'manufacturing.overview.create-order' | translate }}</a>
+    [breadcrumb]="['shell.workspace' , 'environments.production.short' , 'nav.production-overview' ]"
+    :title="$t('nav.production-overview' )"
+    :subtitle="$t('manufacturing.overview.subtitle' , {name: firstName})">
+    <router-link class="p-button p-component" to="/production/batches">+ {{ $t('manufacturing.overview.create-order') }}</router-link>
   </app-page-header>
 
   <div class="stats">
-    <mat-card appearance="outlined" class="stat">
-      <p class="stat-label">{{ 'manufacturing.overview.orders' | translate }}</p>
-      <p class="stat-value">{{ store.orders().length }}</p>
-      <p class="stat-note">{{ 'manufacturing.overview.orders-note' | translate: {running: (store.batchCounts()['in-progress'] ?? 0), held: (store.batchCounts()['on-hold'] ?? 0)} }}</p>
-    </mat-card>
-    <mat-card appearance="outlined" class="stat">
-      <p class="stat-label">{{ 'manufacturing.overview.output' | translate }}</p>
-      <p class="stat-value">{{ output() | number }}</p>
-      <p class="stat-note">{{ 'manufacturing.overview.output-note' | translate }}</p>
-    </mat-card>
-    <mat-card appearance="outlined" class="stat">
-      <p class="stat-label">{{ 'manufacturing.overview.batches' | translate }}</p>
-      <p class="stat-value">{{ (store.batchCounts()['in-progress'] ?? 0) + (store.batchCounts()['on-hold'] ?? 0) }}</p>
-      <p class="stat-note">{{ 'manufacturing.overview.batches-note' | translate }}</p>
-    </mat-card>
-    <mat-card appearance="outlined" class="stat">
-      <p class="stat-label">{{ 'manufacturing.overview.incidents' | translate }}</p>
-      <p class="stat-value">{{ monitoringStore.activeAlerts().length }}</p>
-      <p class="stat-note">{{ 'manufacturing.overview.incidents-note' | translate }}</p>
-    </mat-card>
+    <pv-card>
+      <p class="stat-label">{{ $t('manufacturing.overview.orders') }}</p>
+      <p class="stat-value">{{ store.orders.length }}</p>
+      <p class="stat-note">{{ $t('manufacturing.overview.orders-note', {running: (store.batchCounts['in-progress'] ?? 0), held: (store.batchCounts['on-hold'] ?? 0)}) }}</p>
+    </pv-card>
+    <pv-card>
+      <p class="stat-label">{{ $t('manufacturing.overview.output') }}</p>
+      <p class="stat-value">{{ output() }}</p>
+      <p class="stat-note">{{ $t('manufacturing.overview.output-note') }}</p>
+    </pv-card>
+    <pv-card>
+      <p class="stat-label">{{ $t('manufacturing.overview.batches') }}</p>
+      <p class="stat-value">{{ (store.batchCounts['in-progress'] ?? 0) + (store.batchCounts['on-hold'] ?? 0) }}</p>
+      <p class="stat-note">{{ $t('manufacturing.overview.batches-note') }}</p>
+    </pv-card>
+    <pv-card>
+      <p class="stat-label">{{ $t('manufacturing.overview.incidents') }}</p>
+      <p class="stat-value">{{ monitoringStore.activeAlerts.length }}</p>
+      <p class="stat-note">{{ $t('manufacturing.overview.incidents-note') }}</p>
+    </pv-card>
   </div>
 
   @if (heldBatch(); as held) {
     <div class="alert alert-danger">
       <div><strong><mat-icon class="inline">error_outline</mat-icon>{{ held.line }} · {{ held.code }} · {{ held.incident }}</strong></div>
-      <a mat-stroked-button [routerLink]="['/production/batches', held.code, 'iot']">{{ 'manufacturing.overview.view-evidence' | translate }}</a>
-    </div>
-  }
-
+      <a mat-stroked-button :to="['/production/batches', held.code, 'iot']">{{ $t('manufacturing.overview.view-evidence') }}</a>
+    </div></template>
   <div class="columns">
     <div class="stack">
-      <mat-card appearance="outlined">
+      <pv-card>
         <div class="card-title row"><div>
-          <h2>{{ 'manufacturing.overview.schedule' | translate }}</h2><span class="spacer"></span>
-          <p class="small muted">{{ 'manufacturing.overview.schedule-text' | translate }}</p></div>
+          <h2>{{ $t('manufacturing.overview.schedule') }}</h2><span class="spacer"></span>
+          <p class="small muted">{{ $t('manufacturing.overview.schedule-text') }}</p></div>
         </div>
-        <div class="table-scroll"><table mat-table [dataSource]="schedule()">
-          <ng-container matColumnDef="c0">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.orders.order' | translate }}</th>
-            <td mat-cell *matCellDef="let row"><a [routerLink]="['/production/orders', row.order.code]">{{ row.order.code }}</a><span class="sub">{{ row.order.batchCode }}</span></td>
+        <div class="table-scroll"><table pv-data-table [dataSource]="schedule()">
+          <ng-container field="c0">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.orders.order') }}</th>
+            <td td *matCellDef="let row"><a :to="['/production/orders', row.order.code]">{{ row.order.code }}</a><span class="sub">{{ row.order.batchCode }}</span></td>
           </ng-container>
-          <ng-container matColumnDef="c1">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.products.product' | translate }}</th>
-            <td mat-cell *matCellDef="let row">{{ row.product?.name }}</td>
+          <ng-container field="c1">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.products.product') }}</th>
+            <td td *matCellDef="let row">{{ row.product?.name }}</td>
           </ng-container>
-          <ng-container matColumnDef="c2">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.batches.line' | translate }}</th>
-            <td mat-cell *matCellDef="let row">{{ row.order.line }}</td>
+          <ng-container field="c2">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.batches.line') }}</th>
+            <td td *matCellDef="let row">{{ row.order.line }}</td>
           </ng-container>
-          <ng-container matColumnDef="c3">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.orders.progress' | translate }}</th>
-            <td mat-cell *matCellDef="let row">{{ row.batch?.progress ?? 0 }} %</td>
+          <ng-container field="c3">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.orders.progress') }}</th>
+            <td td *matCellDef="let row">{{ row.batch?.progress ?? 0 }} %</td>
           </ng-container>
-          <ng-container matColumnDef="c4">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.products.status' | translate }}</th>
-            <td mat-cell *matCellDef="let row"><span class="chip chip-dot" [class]="toneOf(row.batch?.status)">{{ 'manufacturing.batch-status.' + (row.batch?.status ?? 'planned') | translate }}</span></td>
+          <ng-container field="c4">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.products.status') }}</th>
+            <td td *matCellDef="let row"><span class="chip chip-dot" :class="toneOf(row.batch?.status)">{{ 'manufacturing.batch-status.' + (row.batch?.status ?? 'planned')  }}</span></td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="['c0', 'c1', 'c2', 'c3', 'c4']"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['c0', 'c1', 'c2', 'c3', 'c4']" [class.highlight]="row.batch?.status === 'on-hold'"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['c0', 'c1', 'c2', 'c3', 'c4']" :class="{'highlight': row.batch?.status === 'on-hold'}"></tr>
         </table></div>
-      </mat-card>
+      </pv-card>
 
-      <mat-card appearance="outlined">
-        <h2 class="card-title">{{ 'manufacturing.overview.readiness' | translate }}</h2>
-        <div class="table-scroll"><table mat-table [dataSource]="readiness()">
-          <ng-container matColumnDef="c0">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.overview.resource' | translate }}</th>
-            <td mat-cell *matCellDef="let item"><strong>{{ item.code }}</strong></td>
+      <pv-card>
+        <h2 class="card-title">{{ $t('manufacturing.overview.readiness') }}</h2>
+        <div class="table-scroll"><table pv-data-table [dataSource]="readiness()">
+          <ng-container field="c0">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.overview.resource') }}</th>
+            <td td *matCellDef="let item"><strong>{{ item.code }}</strong></td>
           </ng-container>
-          <ng-container matColumnDef="c1">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.overview.availability' | translate }}</th>
-            <td mat-cell *matCellDef="let item"><span class="chip chip-dot" [class]="item.tone">{{ item.label | translate }}</span></td>
+          <ng-container field="c1">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.overview.availability') }}</th>
+            <td td *matCellDef="let item"><span class="chip chip-dot" :class="item.tone">{{ $t(item.label) }}</span></td>
           </ng-container>
-          <ng-container matColumnDef="c2">
-            <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.overview.assignment' | translate }}</th>
-            <td mat-cell *matCellDef="let item">{{ item.assignment }}</td>
+          <ng-container field="c2">
+            <th th *matHeaderCellDef>{{ $t('manufacturing.overview.assignment') }}</th>
+            <td td *matCellDef="let item">{{ item.assignment }}</td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="['c0', 'c1', 'c2']"></tr>
           <tr mat-row *matRowDef="let item; columns: ['c0', 'c1', 'c2']"></tr>
         </table></div>
-      </mat-card>
+      </pv-card>
     </div>
 
     <aside class="stack">
-      <mat-card appearance="outlined" class="panel side">
-        <h2>{{ 'manufacturing.overview.priorities' | translate }}</h2>
-        <p class="small muted">{{ 'manufacturing.overview.priorities-text' | translate }}</p>
-        @for (alert of monitoringStore.activeAlerts(); track alert.id) {
-          <a class="incident" [routerLink]="['/production/sensors', alert.sensorCode]">
+      <pv-card>
+        <h2>{{ $t('manufacturing.overview.priorities') }}</h2>
+        <p class="small muted">{{ $t('manufacturing.overview.priorities-text') }}</p>
+        <template v-for="alert in monitoringStore.activeAlerts" :key="alert.id">
+          <a class="incident" :to="['/production/sensors', alert.sensorCode]">
             <strong>{{ alert.code }} · {{ alert.title }}</strong>
             <span class="small muted">{{ alert.sensorCode }} · {{ alert.equipmentCode }} {{ alert.linkedRecord ? '· ' + alert.linkedRecord : '' }}</span>
-            <span class="chip chip-dot" [class]="alert.severity === 'critical' ? 'chip-warning' : 'chip-neutral'">{{ 'monitoring.alert-status.' + alert.status | translate }}</span>
-          </a>
-        }
-      </mat-card>
-      <mat-card appearance="outlined" class="panel side">
-        <h2>{{ 'manufacturing.overview.handover' | translate }}</h2>
-        <div><strong>{{ 'manufacturing.overview.handover-1' | translate }}</strong><p class="small muted">{{ 'manufacturing.overview.handover-1-text' | translate }}</p></div>
-        <div><strong>{{ 'manufacturing.overview.handover-2' | translate }}</strong><p class="small muted">{{ 'manufacturing.overview.handover-2-text' | translate }}</p></div>
-        <div><strong>{{ 'manufacturing.overview.handover-3' | translate }}</strong><p class="small muted">{{ 'manufacturing.overview.handover-3-text' | translate }}</p></div>
-      </mat-card>
+            <span class="chip chip-dot" :class="alert.severity === 'critical' ? 'chip-warning' : 'chip-neutral'">{{ $t('monitoring.alert-status.' + alert.status) }}</span>
+          </a></template>
+      </pv-card>
+      <pv-card>
+        <h2>{{ $t('manufacturing.overview.handover') }}</h2>
+        <div><strong>{{ $t('manufacturing.overview.handover-1') }}</strong><p class="small muted">{{ $t('manufacturing.overview.handover-1-text') }}</p></div>
+        <div><strong>{{ $t('manufacturing.overview.handover-2') }}</strong><p class="small muted">{{ $t('manufacturing.overview.handover-2-text') }}</p></div>
+        <div><strong>{{ $t('manufacturing.overview.handover-3') }}</strong><p class="small muted">{{ $t('manufacturing.overview.handover-3-text') }}</p></div>
+      </pv-card>
     </aside>
   </div>
 </section>
@@ -121,32 +118,32 @@
  */
 
 
-  protected store = inject(ManufacturingStore);
-  protected monitoringStore = inject(MonitoringStore);
-  protected iamStore = inject(IamStore);
+  const store = inject(ManufacturingStore);
+  const monitoringStore = inject(MonitoringStore);
+  const iamStore = inject(IamStore);
 
   /**
    * First name of the signed-in user.
    */
-  protected firstName = computed(
-    () => this.iamStore.currentUser()?.fullName.split(' ')[0] ?? '',
+  const firstName = computed(
+    () => this.iamStore.currentUser?.fullName.split(' ')[0] ?? '',
   );
 
   /**
    * Orders of the schedule with their batch.
    */
-  protected schedule = computed(() =>
-    this.store.orders().map((order) => ({
+  const schedule = computed(() =>
+    this.store.orders.map((order) => ({
       order,
-      batch: this.store.batches().find((batch) => batch.code === order.batchCode),
-      product: this.store.products().find((product) => product.code === order.productCode),
+      batch: this.store.batches.find((batch) => batch.code === order.batchCode),
+      product: this.store.products.find((product) => product.code === order.productCode),
     })),
   );
 
   /**
    * Units of the batches in progress.
    */
-  protected output = computed(() =>
+  const output = computed(() =>
     this.store
       .batches()
       .filter((batch) => batch.status === 'in-progress' || batch.status === 'on-hold')
@@ -156,15 +153,15 @@
   /**
    * Batch on hold, shown in the top alert.
    */
-  protected heldBatch = computed(() =>
-    this.store.batches().find((batch) => batch.status === 'on-hold'),
+  const heldBatch = computed(() =>
+    this.store.batches.find((batch) => batch.status === 'on-hold'),
   );
 
   /**
    * Equipment and material that need attention before they can be used.
    */
-  protected readiness = computed(() => [
-    ...this.monitoringStore.equipment().map((item) => ({
+  const readiness = computed(() => [
+    ...this.monitoringStore.equipment.map((item) => ({
       code: item.code,
       state: item.calibrationStatus,
       tone:
@@ -192,7 +189,7 @@
    * Color of a batch status chip.
    * @param status - Batch status.
    */
-  protected toneOf(status | undefined) {
+  const toneOf(status | undefined) {
     return (
       (
         {
@@ -201,8 +198,7 @@
           planned: 'chip-neutral',
         } as Record<string, string>
       )[status ?? ''] ?? 'chip-teal'
-    );
-  }
+    );</template>
 </script>
 
 <style scoped>
@@ -210,9 +206,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    padding: 24px;
-}
-
+    padding: 24px;</template>
 .incident {
     display: flex;
     flex-direction: column;
@@ -222,12 +216,8 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     color: var(--text);
-    font-weight: 400;
-}
-
+    font-weight: 400;</template>
 .incident:hover {
     border-color: var(--teal);
-    text-decoration: none;
-}
-
+    text-decoration: none;</template>
 </style>

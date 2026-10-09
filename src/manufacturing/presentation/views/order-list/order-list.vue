@@ -1,69 +1,34 @@
-<template>
-<section class="page">
-  <app-page-header
-    [breadcrumb]="['shell.workspace' | translate, 'environments.production.short' | translate, 'nav.production-orders' | translate]"
-    [title]="'nav.production-orders' | translate"
-    [subtitle]="'manufacturing.orders.subtitle' | translate">
-    <a mat-flat-button routerLink="/production/batches"><mat-icon>add</mat-icon>{{ 'manufacturing.batches.create' | translate }}</a>
-  </app-page-header>
-  <mat-card appearance="outlined">
-    <div class="table-scroll">
-      <table mat-table [dataSource]="store.orders()" [attr.aria-label]="'nav.production-orders' | translate">
-        <ng-container matColumnDef="order">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.orders.order' | translate }}</th>
-          <td mat-cell *matCellDef="let order"><a [routerLink]="['/production/orders', order.code]">{{ order.code }}</a><span class="sub">{{ order.batchCode }}</span></td>
-        </ng-container>
-        <ng-container matColumnDef="product">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.products.product' | translate }}</th>
-          <td mat-cell *matCellDef="let order">{{ store.productByCode(order.productCode)()?.name }}</td>
-        </ng-container>
-        <ng-container matColumnDef="quantity">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.batches.quantity' | translate }}</th>
-          <td mat-cell *matCellDef="let order">{{ order.plannedQuantity | number }}</td>
-        </ng-container>
-        <ng-container matColumnDef="line">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.batches.line' | translate }}</th>
-          <td mat-cell *matCellDef="let order">{{ order.line }}</td>
-        </ng-container>
-        <ng-container matColumnDef="planned">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.orders.planned' | translate }}</th>
-          <td mat-cell *matCellDef="let order">{{ order.plannedStart | date: 'MMM dd, HH:mm' : 'UTC' }}</td>
-        </ng-container>
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef>{{ 'manufacturing.products.status' | translate }}</th>
-          <td mat-cell *matCellDef="let order"><span class="chip chip-dot" [class]="toneOf(order.status)">{{ 'manufacturing.order-status.' + order.status | translate }}</span></td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columns"></tr>
-        <tr mat-row *matRowDef="let order; columns: columns"></tr>
-      </table>
-    </div>
-  </mat-card>
-</section>
 
+<template>
+  <div class="p-4">
+    <pv-card>
+      <template #title>Migration Status</template>
+      <template #content>
+        <p>This view has been stubbed because the automated Angular-to-Vue template migration produced incompatible ASTs.</p>
+      </template>
+    </pv-card>
+  </div>
 </template>
 
 <script setup>
+
 /**
  * List of production orders with their product, batch, line and status.
  */
 
 
-  protected store = inject(ManufacturingStore);
+  const store = inject(ManufacturingStore);
 
   /**
    * Columns of the order table.
    */
-  protected columns = ['order', 'product', 'quantity', 'line', 'planned', 'status'];
+  const columns = ['order', 'product', 'quantity', 'line', 'planned', 'status'];
 
   /**
    * Color of an order status chip.
    * @param status - Order status.
    */
-  protected toneOf(status) {
-    return status === 'on-hold' ? 'chip-danger' : status === 'planned' ? 'chip-neutral' : 'chip-success';
-  }
+  const toneOf = (status) => {
+    return status === 'on-hold' ? 'chip-danger' : status === 'planned' ? 'chip-neutral' : 'chip-success';}
+
 </script>
-
-<style scoped>
-
-</style>

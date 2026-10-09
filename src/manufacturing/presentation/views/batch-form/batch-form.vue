@@ -2,56 +2,51 @@
 @if (rejection().length) {
   <mat-dialog-content class="rejected">
     <span class="dialog-icon"><mat-icon>error_outline</mat-icon></span>
-    <h2>{{ 'manufacturing.batches.rejected-title' | translate }}</h2>
+    <h2>{{ $t('manufacturing.batches.rejected-title') }}</h2>
     <p class="muted">
-      @for (reason of rejection(); track reason) {
-        {{ 'manufacturing.batches.rejected.' + reason | translate: {code: form.controls.code.value, product: form.controls.productCode.value} }}
-      }
+      <template v-for="reason in rejection()" :key="reason">
+        {{ 'manufacturing.batches.rejected.' + reason, {code: form.controls.code.value, product: form.controls.productCode.value}) }}</template>
     </p>
   </mat-dialog-content>
   <mat-dialog-actions class="actions">
-    <button mat-stroked-button type="button" mat-dialog-close>{{ 'shell.cancel' | translate }}</button>
-    <button mat-flat-button type="button" (click)="changeData()">{{ 'manufacturing.batches.change-data' | translate }}</button>
+    <button mat-stroked-button type="button" mat-dialog-close>{{ $t('shell.cancel') }}</button>
+    <button mat-flat-button type="button" (click)="changeData()">{{ $t('manufacturing.batches.change-data') }}</button>
   </mat-dialog-actions>
 } @else {
-  <h2 mat-dialog-title>{{ 'manufacturing.batches.create' | translate }}</h2>
+  <h2 mat-dialog-title>{{ $t('manufacturing.batches.create') }}</h2>
   <form [formGroup]="form" (ngSubmit)="saveBatch()" novalidate>
     <mat-dialog-content class="form">
       <mat-form-field appearance="outline">
-        <mat-label>{{ 'manufacturing.batches.batch-code' | translate }}</mat-label>
+        <mat-label>{{ $t('manufacturing.batches.batch-code') }}</mat-label>
         <input matInput formControlName="code" placeholder="B-26045" required>
-        <mat-error>{{ 'manufacturing.batches.code-error' | translate }}</mat-error>
+        <mat-error>{{ $t('manufacturing.batches.code-error') }}</mat-error>
       </mat-form-field>
       <mat-form-field appearance="outline">
-        <mat-label>{{ 'manufacturing.products.product' | translate }}</mat-label>
+        <mat-label>{{ $t('manufacturing.products.product') }}</mat-label>
         <mat-select formControlName="productCode" required>
-          @for (product of store.products(); track product.id) {
-            <mat-option [value]="product.code">{{ product.code }} · {{ product.name }}</mat-option>
-          }
+          <template v-for="product in store.products" :key="product.id">
+            <mat-option [value]="product.code">{{ product.code }} · {{ product.name }}</mat-option></template>
         </mat-select>
       </mat-form-field>
       <div class="form-grid">
         <mat-form-field appearance="outline">
-          <mat-label>{{ 'manufacturing.batches.quantity' | translate }}</mat-label>
+          <mat-label>{{ $t('manufacturing.batches.quantity') }}</mat-label>
           <input matInput type="number" formControlName="quantity" min="1" required>
         </mat-form-field>
         <mat-form-field appearance="outline">
-          <mat-label>{{ 'manufacturing.batches.line' | translate }}</mat-label>
+          <mat-label>{{ $t('manufacturing.batches.line') }}</mat-label>
           <mat-select formControlName="line" required>
-            @for (line of lines; track line) {
-              <mat-option [value]="line">{{ line }}</mat-option>
-            }
+            <template v-for="line in lines" :key="line">
+              <mat-option [value]="line">{{ line }}</mat-option></template>
           </mat-select>
         </mat-form-field>
       </div>
     </mat-dialog-content>
     <mat-dialog-actions class="actions">
-      <button mat-stroked-button type="button" mat-dialog-close>{{ 'shell.cancel' | translate }}</button>
-      <button mat-flat-button type="submit">{{ 'manufacturing.batches.create' | translate }}</button>
+      <button mat-stroked-button type="button" mat-dialog-close>{{ $t('shell.cancel') }}</button>
+      <button mat-flat-button type="submit">{{ $t('manufacturing.batches.create') }}</button>
     </mat-dialog-actions>
-  </form>
-}
-
+  </form></template>
 </template>
 
 <script setup>
@@ -60,19 +55,19 @@
  * the master formula of the product is not approved.
  */
 
-  protected store = inject(ManufacturingStore);
+  const store = inject(ManufacturingStore);
   iamStore = inject(IamStore);
   dialogRef = inject(MatDialogRef<BatchForm, string>);
 
   /**
    * Production lines of the plant.
    */
-  protected lines = ['Line 01', 'Line 02', 'Line 03'];
+  const lines = ['Line 01', 'Line 02', 'Line 03'];
 
   /**
    * Reasons why the last batch could not be registered.
    */
-  protected rejection = signal<BatchRejection[]>([]);
+  const rejection = signal<BatchRejection[]>([]);
 
   /**
    * Create batch form.
@@ -90,15 +85,14 @@
   saveBatch = () => {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
-      return;
-    }
+      return;</template>
     const value = this.form.getRawValue();
     const reasons = this.store.validateBatch(value.code, value.productCode);
     this.rejection.set(reasons);
     if (reasons.length) return;
     this.store.addBatch(new Batch({
       id: 0, code: value.code, productCode: value.productCode, orderCode: value.code.replace('B-', 'PO-'),
-      quantity: value.quantity, line: value.line, owner: this.iamStore.currentUser()?.fullName ?? '', status: 'planned',
+      quantity: value.quantity, line: value.line, owner: this.iamStore.currentUser?.fullName ?? '', status: 'planned',
       progress: 0, incident: '', lastActivity: 'Created', lastActivityAt: new Date().toISOString()
     }));
     this.dialogRef.close(value.code);
@@ -107,9 +101,8 @@
   /**
    * Returns to the form to change the batch number.
    */
-  protected changeData(): void {
-    this.rejection.set([]);
-  }
+  const changeData(): void {
+    this.rejection.set([]);</template>
 </script>
 
 <style scoped>
@@ -117,13 +110,9 @@
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding-top: 28px;
-}
-
+  padding-top: 28px;</template>
 .rejected h2 {
-  font-size: 20px;
-}
-
+  font-size: 20px;</template>
 .dialog-icon {
   display: inline-flex;
   align-items: center;
@@ -132,25 +121,16 @@
   height: 48px;
   border-radius: 50%;
   background: var(--danger-bg);
-  color: var(--danger);
-}
-
+  color: var(--danger);</template>
 .form {
   min-width: 420px;
-  padding-top: 8px;
-}
-
+  padding-top: 8px;</template>
 .actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  padding: 8px 24px 24px;
-}
-
+  padding: 8px 24px 24px;</template>
 @media (max-width: 600px) {
   .form {
-    min-width: 0;
-  }
-}
-
+    min-width: 0;</template></template>
 </style>
