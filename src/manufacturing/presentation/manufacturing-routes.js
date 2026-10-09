@@ -1,1 +1,1 @@
-export default [];
+export default [{ path: "", component: () => import("./views/production-overview/production-overview.vue") }];
