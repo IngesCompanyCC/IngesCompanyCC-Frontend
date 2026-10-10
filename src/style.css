@@ -220,6 +220,7 @@ a {
 .chip-info { background: var(--blue-pale); color: var(--blue); }
 .chip-neutral { background: #f1f5f9; color: var(--slate); }
 .chip-teal { background: var(--mint); color: var(--teal); border: 1px solid #99f6e4; }
+.chip-purple { background: #ede9fe; color: #6d28d9; border: 1px solid #ddd6fe; }
 
 /* ---------- Alerts ---------- */
 
