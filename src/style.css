@@ -193,6 +193,27 @@ a {
   border-left: 1px solid var(--border);
 }
 
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.stat .p-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat .chip {
+  align-self: flex-start;
+}
+
+.stat-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+
 /* ---------- Status chips ---------- */
 
 .chip {

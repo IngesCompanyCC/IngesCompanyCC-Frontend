@@ -8,7 +8,10 @@ export const workspaceEnvironments = {
         accent: 'teal',
         icon: 'pi pi-verified',
         features: ['documents', 'analytical-results', 'deviations-capa', 'batch-release', 'audits'],
-        navigation: []
+        navigation: [
+            { to: '/qa/overview', label: 'nav.quality-overview' },
+            { to: '/qa/indicators', label: 'nav.quality-indicators' }
+        ]
     },
     production: {
         key: 'production',
