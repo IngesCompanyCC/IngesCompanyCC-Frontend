@@ -22,7 +22,8 @@
     "raw-materials": "Materias primas",
     "subscription-payments": "Suscripción y pagos",
     "administration-overview": "Resumen de administración",
-    "iot-overview": "Resumen IoT"
+    "iot-overview": "Resumen IoT",
+    "equipment-sensors": "Equipos y sensores"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. Todos los derechos reservados.",
