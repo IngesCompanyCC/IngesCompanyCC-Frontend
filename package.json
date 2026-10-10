@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "server": "json-server --watch server/db.json --routes server/routes.json"
+    "server": "json-server server/db.json --routes server/routes.json"
   },
   "dependencies": {
     "@primeuix/themes": "^3.0.1",
