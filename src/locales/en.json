@@ -23,7 +23,8 @@
     "subscription-payments": "Subscriptions & payments",
     "administration-overview": "Administration overview",
     "iot-overview": "IoT overview",
-    "equipment-sensors": "Equipment & sensors"
+    "equipment-sensors": "Equipment & sensors",
+    "incidents": "Incidents"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. All rights reserved.",

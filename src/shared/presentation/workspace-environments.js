@@ -21,7 +21,8 @@ export const workspaceEnvironments = {
             { to: '/production/batches', label: 'nav.batches' },
             { to: '/production/raw-materials', label: 'nav.raw-materials' },
             { to: '/production/iot', label: 'nav.iot-overview' },
-            { to: '/production/equipment', label: 'nav.equipment-sensors' }
+            { to: '/production/equipment', label: 'nav.equipment-sensors' },
+            { to: '/production/incidents', label: 'nav.incidents' }
         ]
     },
     administration: {
