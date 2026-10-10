@@ -1,63 +1,36 @@
+﻿import { BaseApi } from "../../shared/infrastructure/base-api.js";
+import { BaseEndpoint } from "../../shared/infrastructure/base-endpoint.js";
+
 /**
  * Infrastructure facade for the Manufacturing & Batch Management endpoints.
  */
+export class ManufacturingApi extends BaseApi {
+  constructor() {
+    super();
+    this.productsEndpoint = new BaseEndpoint(this, '/products');
+    this.formulasEndpoint = new BaseEndpoint(this, '/master-formulas');
+    this.formulaItemsEndpoint = new BaseEndpoint(this, '/formula-items');
+    this.ordersEndpoint = new BaseEndpoint(this, '/production-orders');
+    this.operationsEndpoint = new BaseEndpoint(this, '/operations');
+    this.batchesEndpoint = new BaseEndpoint(this, '/batches');
+    this.batchEventsEndpoint = new BaseEndpoint(this, '/batch-events');
+    this.materialLotsEndpoint = new BaseEndpoint(this, '/material-lots');
+  }
 
-export class ManufacturingApi  {
-  http = null;
-  private readonly productsEndpoint = new ProductsApiEndpoint(this.http);
-  private readonly formulasEndpoint = new MasterFormulasApiEndpoint(this.http);
-  private readonly formulaItemsEndpoint = new FormulaItemsApiEndpoint(this.http);
-  private readonly ordersEndpoint = new ProductionOrdersApiEndpoint(this.http);
-  private readonly operationsEndpoint = new OperationsApiEndpoint(this.http);
-  private readonly batchesEndpoint = new BatchesApiEndpoint(this.http);
-  private readonly batchEventsEndpoint = new BatchEventsApiEndpoint(this.http);
-  private readonly materialLotsEndpoint = new MaterialLotsApiEndpoint(this.http);
-
-  /** Retrieves the product catalog. */
-  getProducts = () => this.productsEndpoint.getAll();
-
-  /** Registers a product. */
-  createProduct = (product) => this.productsEndpoint.create(product);
-
-  /** Retrieves all master formula versions. */
-  getMasterFormulas = () => this.formulasEndpoint.getAll();
-
-  /** Retrieves the components and parameters of all master formulas. */
-  getFormulaItems = () => this.formulaItemsEndpoint.getAll();
-
-  /** Retrieves the production orders. */
-  getProductionOrders = () => this.ordersEndpoint.getAll();
-
-  /** Creates a production order. */
-  createProductionOrder = (order) => this.ordersEndpoint.create(order);
-
-  /** Retrieves the operations of all orders. */
-  getOperations = () => this.operationsEndpoint.getAll();
-
-  /** Updates an operation. */
-  updateOperation = (operation) => this.operationsEndpoint.update(operation, operation.id);
-
-  /** Retrieves the batches. */
-  getBatches = () => this.batchesEndpoint.getAll();
-
-  /** Creates a batch. */
-  createBatch = (batch) => this.batchesEndpoint.create(batch);
-
-  /** Updates a batch. */
-  updateBatch = (batch) => this.batchesEndpoint.update(batch, batch.id);
-
-  /** Retrieves the status history of all batches. */
-  getBatchEvents = () => this.batchEventsEndpoint.getAll();
-
-  /** Adds an entry to the status history of a batch. */
-  createBatchEvent = (event) => this.batchEventsEndpoint.create(event);
-
-  /** Retrieves the raw-material lots. */
-  getMaterialLots = () => this.materialLotsEndpoint.getAll();
-
-  /** Records a raw-material receipt. */
-  createMaterialLot = (lot) => this.materialLotsEndpoint.create(lot);
-
-  /** Updates a raw-material lot. */
-  updateMaterialLot = (lot) => this.materialLotsEndpoint.update(lot, lot.id);
+  getProducts() { return this.productsEndpoint.getAll(); }
+  createProduct(product) { return this.productsEndpoint.create(product); }
+  getMasterFormulas() { return this.formulasEndpoint.getAll(); }
+  getFormulaItems() { return this.formulaItemsEndpoint.getAll(); }
+  getProductionOrders() { return this.ordersEndpoint.getAll(); }
+  createProductionOrder(order) { return this.ordersEndpoint.create(order); }
+  getOperations() { return this.operationsEndpoint.getAll(); }
+  updateOperation(operation) { return this.operationsEndpoint.update(operation.id, operation); }
+  getBatches() { return this.batchesEndpoint.getAll(); }
+  createBatch(batch) { return this.batchesEndpoint.create(batch); }
+  updateBatch(batch) { return this.batchesEndpoint.update(batch.id, batch); }
+  getBatchEvents() { return this.batchEventsEndpoint.getAll(); }
+  createBatchEvent(event) { return this.batchEventsEndpoint.create(event); }
+  getMaterialLots() { return this.materialLotsEndpoint.getAll(); }
+  createMaterialLot(lot) { return this.materialLotsEndpoint.create(lot); }
+  updateMaterialLot(lot) { return this.materialLotsEndpoint.update(lot.id, lot); }
 }
