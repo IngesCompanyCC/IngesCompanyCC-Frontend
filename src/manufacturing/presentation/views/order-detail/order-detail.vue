@@ -128,17 +128,6 @@ const recordOperation = () => {
 </template>
 
 <style scoped>
-.alert {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  border: 1px solid var(--warning-border);
-  border-radius: var(--radius);
-  background: var(--warning-bg);
-  color: var(--warning);
-}
-
 .context :deep(.p-card-content) {
   display: flex;
   flex-direction: column;
