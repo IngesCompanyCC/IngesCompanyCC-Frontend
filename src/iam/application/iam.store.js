@@ -44,6 +44,10 @@ const useIamStore = defineStore('iam', () => {
     const errors = ref([]);
     /** @type {import('vue').ComputedRef<boolean>} Whether a user is signed in. */
     const isSignedIn = computed(() => currentUser.value !== null);
+    /** @type {import('vue').Ref<Array<import('../domain/model/user.entity.js').User>>} Users of the organization. */
+    const users = ref([]);
+    /** @type {import('vue').ComputedRef<Array>} Users of the organization with an active account. */
+    const activeUsers = computed(() => users.value.filter(user => user.status === 'active'));
 
     /**
      * Validates the credentials of the command. A valid user continues to the two-factor step.
@@ -98,6 +102,14 @@ const useIamStore = defineStore('iam', () => {
             .finally(() => loading.value = false);
     }
 
+    /** Loads the users of the organization of the signed-in user, for the administration pages. */
+    function fetchUsers() {
+        iamApi.getUsers()
+            .then(response => users.value = UserAssembler.toEntitiesFromResponse(response)
+                .filter(user => user.organizationId === currentUser.value?.organizationId))
+            .catch(error => errors.value.push(error));
+    }
+
     /** Returns the sign-in flow to the credentials step. */
     function resetSignIn() {
         pendingUser.value = null;
@@ -123,6 +135,9 @@ const useIamStore = defineStore('iam', () => {
         loading,
         errors,
         isSignedIn,
+        users,
+        activeUsers,
+        fetchUsers,
         signIn,
         verifyTwoFactorCode,
         resetSignIn,
