@@ -29,7 +29,8 @@
     "quality-indicators": "Indicadores de calidad",
     "quality-documents": "Documentos de calidad",
     "deviations": "Desviaciones",
-    "capa-plans": "Planes CAPA"
+    "capa-plans": "Planes CAPA",
+    "batch-release": "Liberación de lotes"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. Todos los derechos reservados.",

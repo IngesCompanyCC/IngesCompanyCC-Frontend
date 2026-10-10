@@ -13,7 +13,8 @@ export const workspaceEnvironments = {
             { to: '/qa/indicators', label: 'nav.quality-indicators' },
             { to: '/qa/documents', label: 'nav.quality-documents' },
             { to: '/qa/deviations', label: 'nav.deviations' },
-            { to: '/qa/capa', label: 'nav.capa-plans' }
+            { to: '/qa/capa', label: 'nav.capa-plans' },
+            { to: '/qa/batch-release', label: 'nav.batch-release' }
         ]
     },
     production: {
