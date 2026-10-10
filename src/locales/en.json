@@ -24,5 +24,94 @@
     "title": "Page not found",
     "content": "The page {unavailable-route} does not exist or was moved.",
     "go-home": "Go to the home page"
+  },
+  "environments": {
+    "qa": {
+      "label": "QA/QC environment",
+      "role": "QA/QC Specialist",
+      "name": "QA/QC",
+      "short": "QA/QC",
+      "description": "Review documents and analytical results, manage deviations and CAPA, and release batches with your electronic signature.",
+      "headline": "Quality decisions backed by complete evidence",
+      "continue": "Continue as QA/QC Specialist"
+    },
+    "production": {
+      "label": "Production environment",
+      "role": "Production Supervisor",
+      "name": "Production",
+      "short": "Production",
+      "description": "Issue production orders, execute batches against master formulas, receive raw materials and respond to IoT alerts.",
+      "headline": "Batches executed against approved master formulas",
+      "continue": "Continue as Production Supervisor"
+    },
+    "administration": {
+      "label": "Administration environment",
+      "role": "Laboratory Administrator",
+      "name": "Administration",
+      "short": "Administration",
+      "description": "Manage the organization and its plants, invite users, assign roles and manage the subscription.",
+      "headline": "One organization, the right access for every role",
+      "continue": "Continue as Laboratory Administrator"
+    },
+    "features": {
+      "documents": "Documents & SOPs",
+      "analytical-results": "Analytical results",
+      "deviations-capa": "Deviations & CAPA",
+      "batch-release": "Batch release",
+      "audits": "Audits & audit trail",
+      "products-formulas": "Products & master formulas",
+      "production-orders": "Production orders",
+      "batch-execution": "Batch execution",
+      "raw-material-receipt": "Raw-material receipt",
+      "organization-plants": "Organization & plants",
+      "users-roles": "Users & roles",
+      "subscription-payments": "Subscription & payments",
+      "profile-preferences": "Profile & preferences"
+    }
+  },
+  "roles": {
+    "qa-specialist": "QA Specialist",
+    "production-supervisor": "Production Supervisor",
+    "administrator": "Administrator",
+    "quality-manager": "Quality Manager",
+    "internal-auditor": "Internal Auditor",
+    "system": "Automated system"
+  },
+  "iam": {
+    "selection": {
+      "overline": "Sign in",
+      "title": "Sign in to DoofPlus",
+      "subtitle": "Choose the environment you work in. Each environment shows the modules and approvals of its role.",
+      "not-customer": "Not a customer yet?",
+      "see-plans": "See plans"
+    },
+    "sign-in": {
+      "title": "Sign in to the {environment} environment",
+      "subtitle": "Use your work account. Next, you will confirm your identity with a two-factor code.",
+      "email": "Work email",
+      "password": "Password",
+      "continue": "Continue",
+      "email-error": "Enter a valid work email.",
+      "password-error": "Enter your password.",
+      "show-password": "Show password",
+      "hide-password": "Hide password",
+      "invalid-title": "The email or password is incorrect.",
+      "invalid-text": "Check your credentials and try again. After 5 failed attempts the account is locked for 15 minutes.",
+      "not-your-environment": "Not your environment?",
+      "choose-another": "Choose another",
+      "access-note": "Access is granted by the role your laboratory administrator assigned.",
+      "two-factor-title": "Two-factor authentication",
+      "two-factor-text": "Enter the 6-digit code from your authenticator app to confirm that you are {name} ({email}).",
+      "code": "Authentication code",
+      "digit": "Digit",
+      "code-hint": "Codes refresh every 30 seconds. After 5 failed attempts the account is locked for 15 minutes.",
+      "invalid-code": "The code is not valid. Enter the current code of your authenticator app.",
+      "verify": "Verify and continue",
+      "back-to-sign-in": "Back to sign in",
+      "denied-title": "Access not authorized for this environment",
+      "denied-text": "Your identity was verified, but your role ({role}) does not grant access to the {environment} environment. Ask your laboratory administrator to review your role, or continue in your own environment.",
+      "choose-another-environment": "Choose another environment",
+      "other-account": "Sign in with another account"
+    }
   }
 }

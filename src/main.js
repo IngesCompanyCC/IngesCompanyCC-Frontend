@@ -24,8 +24,10 @@ import {
     IconField,
     InputIcon,
     InputNumber,
+    InputOtp,
     InputText,
     Menu,
+    Password,
     Rating,
     Row,
     Select,
@@ -73,7 +75,9 @@ createApp(App)
     .component('pv-input-icon',     InputIcon)
     .component('pv-input-text',     InputText)
     .component('pv-input-number',   InputNumber)
+    .component('pv-input-otp',      InputOtp)
     .component('pv-menu',           Menu)
+    .component('pv-password',       Password)
     .component('pv-rating',         Rating)
     .component('pv-row',            Row)
     .component('pv-drawer',         Drawer)

@@ -1,12 +1,18 @@
 import {createRouter, createWebHistory} from "vue-router";
+import iamRoutes from "./iam/presentation/iam-routes.js";
 import manufacturingRoutes from "./manufacturing/presentation/manufacturing-routes.js";
 
+const layout = () => import('./shared/presentation/components/layout.vue');
+const publicLayout = () => import('./shared/presentation/components/public-layout.vue');
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
 
 const routes = [
-    { path: '/production', name: 'production', children: manufacturingRoutes },
-    { path: '/', redirect: '/production/overview' },
-    { path: '/:pathMatch(.*)*', name: 'not-found', component: pageNotFound, meta: { title: 'Page Not Found' } }
+    { path: '/sign-in',          component: publicLayout, children: iamRoutes },
+    { path: '/production',       component: layout,       meta: { environment: 'production' }, children: manufacturingRoutes },
+    { path: '/',                 redirect: '/sign-in' },
+    { path: '/:pathMatch(.*)*',  component: publicLayout, children: [
+        { path: '', name: 'not-found', component: pageNotFound, meta: { title: 'Page Not Found' } }
+    ]}
 ];
 
 const router = createRouter({

@@ -25,8 +25,6 @@ const items = [
 
 <template>
   <a class="skip-link" href="#content">{{ t('shell.skip-to-content') }}</a>
-  <pv-toast/>
-  <pv-confirm-dialog/>
   <div class="workspace">
     <aside class="sidebar hidden md:flex">
       <router-link :to="items[0].to" class="brand" :aria-label="t('shell.home')">

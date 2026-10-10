@@ -1,7 +1,5 @@
-<script setup>
-import Layout from "./shared/presentation/components/layout.vue";
-</script>
-
 <template>
-  <layout/>
+  <pv-toast/>
+  <pv-confirm-dialog/>
+  <router-view/>
 </template>
