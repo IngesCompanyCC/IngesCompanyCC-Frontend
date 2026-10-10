@@ -11,7 +11,8 @@
     "sign-out": "Cerrar sesión",
     "cancel": "Cancelar",
     "status": "Estado",
-    "filters": "Filtros"
+    "filters": "Filtros",
+    "profile": "Perfil y preferencias"
   },
   "nav": {
     "production-overview": "Resumen de producción",

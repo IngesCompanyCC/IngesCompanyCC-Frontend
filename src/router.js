@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 import manufacturingRoutes from "./manufacturing/presentation/manufacturing-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
-import {organizationsAdministrationRoutes, organizationsPublicRoutes} from "./organizations/presentation/organizations-routes.js";
+import {organizationsAdministrationRoutes, organizationsPublicRoutes, profileRoutes} from "./organizations/presentation/organizations-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import useIamStore from "./iam/application/iam.store.js";
 import {homeOf} from "./shared/presentation/workspace-environments.js";
@@ -17,9 +17,9 @@ const notFound = { path: ':pathMatch(.*)*', component: pageNotFound, meta: { tit
 const routes = [
     { path: '/sign-in',          component: publicLayout, children: iamRoutes },
     { path: '/register',         children: organizationsPublicRoutes },
-    { path: '/qa',               component: layout,       meta: { environment: 'qa' },             children: [notFound] },
-    { path: '/production',       component: layout,       meta: { environment: 'production' },     children: [...manufacturingRoutes, notFound] },
-    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...organizationsAdministrationRoutes, ...subscriptionsRoutes, notFound] },
+    { path: '/qa',               component: layout,       meta: { environment: 'qa' },             children: [...profileRoutes, notFound] },
+    { path: '/production',       component: layout,       meta: { environment: 'production' },     children: [...manufacturingRoutes, ...profileRoutes, notFound] },
+    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...organizationsAdministrationRoutes, ...subscriptionsRoutes, ...profileRoutes, notFound] },
     { path: '/',                 redirect: () => {
         const user = useIamStore().currentUser;
         return user ? homeOf(user.environment) : '/sign-in';

@@ -35,6 +35,8 @@ const toggleDrawer = () => {
 
 const userMenu = ref();
 const userMenuItems = computed(() => [
+  { label: t('shell.profile'), icon: 'pi pi-user-edit', command: () => router.push(`/${environment.value}/profile`) },
+  { separator: true },
   { label: t('shell.sign-out'), icon: 'pi pi-sign-out', command: () => store.signOut(router) }
 ]);
 </script>

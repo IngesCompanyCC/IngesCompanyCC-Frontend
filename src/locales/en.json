@@ -11,7 +11,8 @@
     "sign-out": "Sign out",
     "cancel": "Cancel",
     "status": "Status",
-    "filters": "Filters"
+    "filters": "Filters",
+    "profile": "Profile & preferences"
   },
   "nav": {
     "production-overview": "Production overview",

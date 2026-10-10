@@ -36,6 +36,7 @@ import {
     Tag,
     Toast,
     Textarea,
+    ToggleSwitch,
     ToastService,
     Toolbar
 } from "primevue";
@@ -85,6 +86,7 @@ createApp(App)
     .component('pv-drawer',         Drawer)
     .component('pv-tag',            Tag)
     .component('pv-textarea',       Textarea)
+    .component('pv-toggle-switch',  ToggleSwitch)
     .component('pv-toolbar',        Toolbar)
     .component('pv-toast',          Toast)
     .directive('tooltip',           Tooltip)
