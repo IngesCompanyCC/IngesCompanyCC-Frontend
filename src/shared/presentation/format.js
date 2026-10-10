@@ -46,3 +46,14 @@ export const formatDate = (value, language) => value
     ? new Intl.DateTimeFormat(locales[language] ?? language, {month: 'short', day: '2-digit', year: 'numeric', timeZone: 'UTC'})
         .format(new Date(value))
     : '';
+
+/**
+ * Formats an amount in US dollars as "US$599".
+ * @param {number} value - Amount in US dollars.
+ * @param {string} language - Language of the interface (en or es).
+ * @param {number} decimals - Number of decimals to show.
+ * @returns {string} The formatted amount.
+ */
+export const formatCurrency = (value, language, decimals = 0) => `US$${new Intl.NumberFormat(locales[language] ?? language, {
+    minimumFractionDigits: decimals, maximumFractionDigits: decimals
+}).format(value ?? 0)}`;

@@ -27,7 +27,9 @@ export const workspaceEnvironments = {
         accent: 'slate',
         icon: 'pi pi-shield',
         features: ['organization-plants', 'users-roles', 'subscription-payments', 'profile-preferences'],
-        navigation: []
+        navigation: [
+            { to: '/administration/subscription', label: 'nav.subscription-payments' }
+        ]
     }
 };
 
