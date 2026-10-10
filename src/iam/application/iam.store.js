@@ -3,6 +3,7 @@ import {computed, ref} from "vue";
 import {IamApi} from "../infrastructure/iam-api.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
 import {User} from "../domain/model/user.entity.js";
+import {SignInCommand} from "../domain/model/sign-in.command.js";
 import {homeOf} from "../../shared/presentation/workspace-environments.js";
 
 const iamApi = new IamApi();
@@ -134,6 +135,22 @@ const useIamStore = defineStore('iam', () => {
             .catch(error => errors.value.push(error));
     }
 
+    /**
+     * Re-authenticates the signed-in user, as required before an electronic signature.
+     * @param {string} password - Password entered by the user.
+     * @returns {Promise<boolean>} Resolves to true when the password is correct.
+     */
+    function verifyPassword(password) {
+        const user = currentUser.value;
+        if (!user) return Promise.resolve(false);
+        return iamApi.findUsersByCredentials(new SignInCommand({email: user.email, password, environment: user.environment}))
+            .then(response => UserAssembler.toEntitiesFromResponse(response).some(found => found.id === user.id))
+            .catch(error => {
+                errors.value.push(error);
+                return false;
+            });
+    }
+
     /** Returns the sign-in flow to the credentials step. */
     function resetSignIn() {
         pendingUser.value = null;
@@ -163,6 +180,7 @@ const useIamStore = defineStore('iam', () => {
         activeUsers,
         fetchUsers,
         registerAdministrator,
+        verifyPassword,
         signIn,
         verifyTwoFactorCode,
         resetSignIn,
