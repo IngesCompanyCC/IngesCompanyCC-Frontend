@@ -37,6 +37,9 @@ const events = computed(() => store.eventsOfBatch(props.code));
       <pv-button as-child v-slot="slotProps" severity="secondary" outlined>
         <router-link to="/production/batches" :class="slotProps['class']">← {{ t('nav.batches') }}</router-link>
       </pv-button>
+      <pv-button as-child v-slot="slotProps">
+        <router-link :to="`/production/batches/${code}/iot`" :class="slotProps['class']">{{ t('manufacturing.detail.iot-evidence') }}</router-link>
+      </pv-button>
     </page-header>
 
     <div v-if="batch" class="columns">
