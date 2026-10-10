@@ -256,6 +256,18 @@ a {
   color: var(--warning);
 }
 
+.alert-info {
+  border-color: #99f6e4;
+  background: var(--mint);
+  color: var(--teal);
+}
+
+.alert-danger {
+  border-color: var(--danger-border);
+  background: var(--danger-bg);
+  color: var(--danger-dark);
+}
+
 /* ---------- Forms ---------- */
 
 .field {
