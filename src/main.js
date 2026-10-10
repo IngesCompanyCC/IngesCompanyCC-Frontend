@@ -28,6 +28,7 @@ import {
     InputText,
     Menu,
     Password,
+    ProgressBar,
     Rating,
     Row,
     Select,
@@ -78,6 +79,7 @@ createApp(App)
     .component('pv-input-otp',      InputOtp)
     .component('pv-menu',           Menu)
     .component('pv-password',       Password)
+    .component('pv-progress-bar',   ProgressBar)
     .component('pv-rating',         Rating)
     .component('pv-row',            Row)
     .component('pv-drawer',         Drawer)

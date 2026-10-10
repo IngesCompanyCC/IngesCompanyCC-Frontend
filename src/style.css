@@ -16,6 +16,10 @@
   --danger-dark: #b91c1c;
   --danger-bg: #fef2f2;
   --danger-border: #fecaca;
+  --warning-strong: #f59e0b;
+  --warning-bg: #fffbeb;
+  --warning-border: #fde68a;
+  --success-bg: #dcfce7;
   --warning: #b45309;
   --success: #15803d;
   --radius: 12px;
@@ -86,4 +90,159 @@ a {
 
 .skip-link:focus {
   top: 16px;
+}
+
+/* ---------- Workspace pages ---------- */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.columns {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 380px;
+  gap: 20px;
+  align-items: start;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+  align-items: start;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.p-card.panel .p-card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sub {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.small {
+  font-size: 12px;
+}
+
+/* ---------- Tables ---------- */
+
+.p-datatable .p-datatable-thead > tr > th {
+  background: var(--gray-bg);
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.p-datatable .p-datatable-tbody > tr > td {
+  white-space: nowrap;
+}
+
+.p-datatable .p-datatable-tbody > tr.highlight {
+  background: var(--mint);
+}
+
+/* ---------- Stats ---------- */
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stat-value {
+  margin: 6px 0;
+  font-size: 30px;
+  font-weight: 700;
+}
+
+/* Several figures in one card, separated by vertical rules. */
+.summary .p-card-content {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.summary .p-card-content > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 4px 24px;
+}
+
+.summary .p-card-content > div + div {
+  border-left: 1px solid var(--border);
+}
+
+/* ---------- Status chips ---------- */
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip-dot::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.chip-success { background: var(--success-bg); color: var(--success); }
+.chip-danger { background: var(--danger-bg); color: var(--danger-dark); }
+.chip-warning { background: var(--warning-bg); color: var(--warning); }
+.chip-info { background: var(--blue-pale); color: var(--blue); }
+.chip-neutral { background: #f1f5f9; color: var(--slate); }
+.chip-teal { background: var(--mint); color: var(--teal); border: 1px solid #99f6e4; }
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 1100px) {
+  .columns,
+  .grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .summary .p-card-content {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    row-gap: 12px;
+  }
+
+  .summary .p-card-content > div:nth-child(3) {
+    border-left: 0;
+  }
+}
+
+@media (max-width: 700px) {
+  h1 {
+    font-size: 26px;
+  }
 }

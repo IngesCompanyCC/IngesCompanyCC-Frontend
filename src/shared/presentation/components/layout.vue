@@ -18,6 +18,13 @@ const environment = computed(() => route.meta['environment']);
 const items = computed(() => workspaceEnvironments[environment.value]?.navigation ?? []);
 const home = computed(() => homeOf(environment.value));
 
+/**
+ * Whether a sidebar link is the current page, including its detail pages (such as a batch of the batch list).
+ * @param {{to: string}} item - Sidebar link.
+ * @returns {boolean} True when the route starts with the link.
+ */
+const isActive = (item) => route.path === item.to || route.path.startsWith(`${item.to}/`);
+
 const drawer = ref(false);
 /**
  * Toggles the navigation drawer used on small screens.
@@ -46,13 +53,13 @@ const userMenuItems = computed(() => [
       </div>
       <p class="section-title">{{ t('shell.workspace') }}</p>
       <nav :aria-label="t('shell.main-navigation')">
-        <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link">{{ t(item.label) }}</router-link>
+        <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link" :class="{ active: isActive(item) }">{{ t(item.label) }}</router-link>
       </nav>
     </aside>
 
     <pv-drawer v-model:visible="drawer" :header="t('shell.workspace')" class="sidebar-drawer">
       <nav :aria-label="t('shell.main-navigation')" @click="drawer = false">
-        <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link">{{ t(item.label) }}</router-link>
+        <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link" :class="{ active: isActive(item) }">{{ t(item.label) }}</router-link>
       </nav>
     </pv-drawer>
 
@@ -156,7 +163,7 @@ nav {
   background: var(--navy-soft);
 }
 
-.nav-link.router-link-active {
+.nav-link.active {
   color: #fff;
   background: var(--teal);
 }
@@ -170,7 +177,7 @@ nav {
   background: var(--mint);
 }
 
-.sidebar-drawer .nav-link.router-link-active {
+.sidebar-drawer .nav-link.active {
   color: #fff;
 }
 
