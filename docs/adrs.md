@@ -1,6 +1,6 @@
 # Architecture Decision Records (ADRs)
 
-## 1. Use Zoneless Angular with Signals
+## 1. Use Zoneless View with Signals
 **Date:** 2026-10-09
 **Status:** Accepted
 
