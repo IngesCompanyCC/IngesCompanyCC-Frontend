@@ -26,6 +26,17 @@ export const formatDateTime = (value, language) => value
     : '';
 
 /**
+ * Formats a time as "09:30" in UTC.
+ * @param {string} value - Date in ISO 8601.
+ * @param {string} language - Language of the interface (en or es).
+ * @returns {string} The formatted time, or an empty string when there is no date.
+ */
+export const formatTime = (value, language) => value
+    ? new Intl.DateTimeFormat(locales[language] ?? language, {hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'UTC'})
+        .format(new Date(value))
+    : '';
+
+/**
  * Formats a date as "Apr 14, 2026" in UTC.
  * @param {string} value - Date in ISO 8601.
  * @param {string} language - Language of the interface (en or es).
