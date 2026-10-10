@@ -33,7 +33,9 @@
     "batch-release": "Batch release",
     "analytical-results": "Analytical results",
     "audits": "Audits",
-    "regulatory-reports": "Regulatory reports"
+    "regulatory-reports": "Regulatory reports",
+    "audit-trail": "Audit trail",
+    "tasks": "Tasks & collaboration"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. All rights reserved.",

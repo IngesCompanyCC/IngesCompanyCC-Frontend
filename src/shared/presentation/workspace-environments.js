@@ -17,7 +17,9 @@ export const workspaceEnvironments = {
             { to: '/qa/batch-release', label: 'nav.batch-release' },
             { to: '/qa/analytical-results', label: 'nav.analytical-results' },
             { to: '/qa/audits', label: 'nav.audits' },
-            { to: '/qa/regulatory-reports', label: 'nav.regulatory-reports' }
+            { to: '/qa/regulatory-reports', label: 'nav.regulatory-reports' },
+            { to: '/qa/audit-trail', label: 'nav.audit-trail' },
+            { to: '/qa/tasks', label: 'nav.tasks' }
         ]
     },
     production: {
@@ -33,7 +35,8 @@ export const workspaceEnvironments = {
             { to: '/production/raw-materials', label: 'nav.raw-materials' },
             { to: '/production/iot', label: 'nav.iot-overview' },
             { to: '/production/equipment', label: 'nav.equipment-sensors' },
-            { to: '/production/incidents', label: 'nav.incidents' }
+            { to: '/production/incidents', label: 'nav.incidents' },
+            { to: '/production/tasks', label: 'nav.tasks' }
         ]
     },
     administration: {
@@ -43,7 +46,9 @@ export const workspaceEnvironments = {
         features: ['organization-plants', 'users-roles', 'subscription-payments', 'profile-preferences'],
         navigation: [
             { to: '/administration/overview', label: 'nav.administration-overview' },
-            { to: '/administration/subscription', label: 'nav.subscription-payments' }
+            { to: '/administration/subscription', label: 'nav.subscription-payments' },
+            { to: '/administration/audit-trail', label: 'nav.audit-trail' },
+            { to: '/administration/tasks', label: 'nav.tasks' }
         ]
     }
 };

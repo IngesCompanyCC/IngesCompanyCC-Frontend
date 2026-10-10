@@ -33,7 +33,9 @@
     "batch-release": "Liberación de lotes",
     "analytical-results": "Resultados analíticos",
     "audits": "Auditorías",
-    "regulatory-reports": "Reportes regulatorios"
+    "regulatory-reports": "Reportes regulatorios",
+    "audit-trail": "Audit trail",
+    "tasks": "Tareas y colaboración"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. Todos los derechos reservados.",

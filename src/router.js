@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 import manufacturingRoutes from "./manufacturing/presentation/manufacturing-routes.js";
 import monitoringRoutes from "./monitoring/presentation/monitoring-routes.js";
-import {qualityRoutes} from "./quality/presentation/quality-routes.js";
+import {qualityRoutes, qualitySharedRoutes} from "./quality/presentation/quality-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
 import {organizationsAdministrationRoutes, organizationsPublicRoutes, profileRoutes} from "./organizations/presentation/organizations-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
@@ -20,8 +20,8 @@ const routes = [
     { path: '/sign-in',          component: publicLayout, children: iamRoutes },
     { path: '/register',         children: organizationsPublicRoutes },
     { path: '/qa',               component: layout,       meta: { environment: 'qa' },             children: [...qualityRoutes, ...profileRoutes, notFound] },
-    { path: '/production',       component: layout,       meta: { environment: 'production' },     children: [...manufacturingRoutes, ...monitoringRoutes, ...profileRoutes, notFound] },
-    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...organizationsAdministrationRoutes, ...subscriptionsRoutes, ...profileRoutes, notFound] },
+    { path: '/production',       component: layout,       meta: { environment: 'production' },     children: [...manufacturingRoutes, ...monitoringRoutes, ...qualitySharedRoutes, ...profileRoutes, notFound] },
+    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...organizationsAdministrationRoutes, ...subscriptionsRoutes, ...qualitySharedRoutes, ...profileRoutes, notFound] },
     { path: '/',                 redirect: () => {
         const user = useIamStore().currentUser;
         return user ? homeOf(user.environment) : '/sign-in';
