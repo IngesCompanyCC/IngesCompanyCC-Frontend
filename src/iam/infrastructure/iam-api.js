@@ -39,6 +39,16 @@ export class IamApi extends BaseApi {
     }
 
     /**
+     * Creates a user account with its password.
+     * The fake API stores the password with the user; the DoofPlus RESTful API will hash it in a sign-up endpoint.
+     * @param {Object} resource - User resource built by the UserAssembler, with the password.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created user.
+     */
+    createUser(resource) {
+        return this.#usersEndpoint.create(resource);
+    }
+
+    /**
      * Retrieves the users of the organization.
      * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the user resources.
      */

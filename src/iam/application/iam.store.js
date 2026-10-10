@@ -2,6 +2,7 @@ import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {IamApi} from "../infrastructure/iam-api.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
+import {User} from "../domain/model/user.entity.js";
 import {homeOf} from "../../shared/presentation/workspace-environments.js";
 
 const iamApi = new IamApi();
@@ -110,6 +111,29 @@ const useIamStore = defineStore('iam', () => {
             .catch(error => errors.value.push(error));
     }
 
+    /**
+     * Creates the first administrator of a newly registered organization. The account stays invited
+     * until the administrator verifies the email and enrolls two-factor authentication.
+     * @param {Object} administrator - Organization and personal data of the administrator.
+     * @param {number} administrator.organizationId - Identifier of the new organization.
+     * @param {string} administrator.organizationName - Legal name of the organization.
+     * @param {string} administrator.plant - Name of the primary plant.
+     * @param {string} administrator.fullName - Full name of the administrator.
+     * @param {string} administrator.email - Work email of the administrator.
+     * @param {string} administrator.password - Password chosen by the administrator.
+     * @returns {Promise<void>} Resolves when the account was created.
+     */
+    function registerAdministrator({organizationId, organizationName, plant, fullName, email, password}) {
+        const initials = fullName.split(/\s+/).filter(Boolean).slice(0, 2).map(part => part[0].toUpperCase()).join('');
+        const {id, ...resource} = UserAssembler.toResourceFromEntity(new User({
+            fullName, initials, email, role: 'administrator', environment: 'administration', facility: 'All facilities',
+            status: 'invited', organizationId, organizationName, plant, privilege: 'administrator'
+        }));
+        return iamApi.createUser({...resource, password})
+            .then(response => users.value.push(UserAssembler.toEntityFromResource(response.data)))
+            .catch(error => errors.value.push(error));
+    }
+
     /** Returns the sign-in flow to the credentials step. */
     function resetSignIn() {
         pendingUser.value = null;
@@ -138,6 +162,7 @@ const useIamStore = defineStore('iam', () => {
         users,
         activeUsers,
         fetchUsers,
+        registerAdministrator,
         signIn,
         verifyTwoFactorCode,
         resetSignIn,
