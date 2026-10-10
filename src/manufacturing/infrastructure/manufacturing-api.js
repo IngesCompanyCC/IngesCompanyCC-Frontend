@@ -1,63 +1,177 @@
+import {BaseApi} from "../../shared/infrastructure/base-api.js";
+import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
+
+const productsEndpointPath = import.meta.env.VITE_PRODUCTS_ENDPOINT_PATH;
+const masterFormulasEndpointPath = import.meta.env.VITE_MASTER_FORMULAS_ENDPOINT_PATH;
+const formulaItemsEndpointPath = import.meta.env.VITE_FORMULA_ITEMS_ENDPOINT_PATH;
+const productionOrdersEndpointPath = import.meta.env.VITE_PRODUCTION_ORDERS_ENDPOINT_PATH;
+const operationsEndpointPath = import.meta.env.VITE_OPERATIONS_ENDPOINT_PATH;
+const batchesEndpointPath = import.meta.env.VITE_BATCHES_ENDPOINT_PATH;
+const batchEventsEndpointPath = import.meta.env.VITE_BATCH_EVENTS_ENDPOINT_PATH;
+const materialLotsEndpointPath = import.meta.env.VITE_MATERIAL_LOTS_ENDPOINT_PATH;
+
 /**
- * Infrastructure facade for the Manufacturing & Batch Management endpoints.
+ * Infrastructure gateway for the Manufacturing & Batch Management endpoints.
+ *
+ * @class ManufacturingApi
+ * @extends BaseApi
  */
+export class ManufacturingApi extends BaseApi {
+    #productsEndpoint;
+    #masterFormulasEndpoint;
+    #formulaItemsEndpoint;
+    #productionOrdersEndpoint;
+    #operationsEndpoint;
+    #batchesEndpoint;
+    #batchEventsEndpoint;
+    #materialLotsEndpoint;
 
-export class ManufacturingApi  {
-  http = null;
-  private readonly productsEndpoint = new ProductsApiEndpoint(this.http);
-  private readonly formulasEndpoint = new MasterFormulasApiEndpoint(this.http);
-  private readonly formulaItemsEndpoint = new FormulaItemsApiEndpoint(this.http);
-  private readonly ordersEndpoint = new ProductionOrdersApiEndpoint(this.http);
-  private readonly operationsEndpoint = new OperationsApiEndpoint(this.http);
-  private readonly batchesEndpoint = new BatchesApiEndpoint(this.http);
-  private readonly batchEventsEndpoint = new BatchEventsApiEndpoint(this.http);
-  private readonly materialLotsEndpoint = new MaterialLotsApiEndpoint(this.http);
+    /** Creates one endpoint client per manufacturing collection. */
+    constructor() {
+        super();
+        this.#productsEndpoint = new BaseEndpoint(this, productsEndpointPath);
+        this.#masterFormulasEndpoint = new BaseEndpoint(this, masterFormulasEndpointPath);
+        this.#formulaItemsEndpoint = new BaseEndpoint(this, formulaItemsEndpointPath);
+        this.#productionOrdersEndpoint = new BaseEndpoint(this, productionOrdersEndpointPath);
+        this.#operationsEndpoint = new BaseEndpoint(this, operationsEndpointPath);
+        this.#batchesEndpoint = new BaseEndpoint(this, batchesEndpointPath);
+        this.#batchEventsEndpoint = new BaseEndpoint(this, batchEventsEndpointPath);
+        this.#materialLotsEndpoint = new BaseEndpoint(this, materialLotsEndpointPath);
+    }
 
-  /** Retrieves the product catalog. */
-  getProducts = () => this.productsEndpoint.getAll();
+    /**
+     * Retrieves the products.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the products.
+     */
+    getProducts() {
+        return this.#productsEndpoint.getAll();
+    }
 
-  /** Registers a product. */
-  createProduct = (product) => this.productsEndpoint.create(product);
+    /**
+     * Creates a product resource.
+     * @param {Object} resource - Resource to create, built by the ProductAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created resource.
+     */
+    createProduct(resource) {
+        return this.#productsEndpoint.create(resource);
+    }
 
-  /** Retrieves all master formula versions. */
-  getMasterFormulas = () => this.formulasEndpoint.getAll();
+    /**
+     * Retrieves the master formulas.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the master formulas.
+     */
+    getMasterFormulas() {
+        return this.#masterFormulasEndpoint.getAll();
+    }
 
-  /** Retrieves the components and parameters of all master formulas. */
-  getFormulaItems = () => this.formulaItemsEndpoint.getAll();
+    /**
+     * Retrieves the formula items.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the formula items.
+     */
+    getFormulaItems() {
+        return this.#formulaItemsEndpoint.getAll();
+    }
 
-  /** Retrieves the production orders. */
-  getProductionOrders = () => this.ordersEndpoint.getAll();
+    /**
+     * Retrieves the production orders.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the production orders.
+     */
+    getProductionOrders() {
+        return this.#productionOrdersEndpoint.getAll();
+    }
 
-  /** Creates a production order. */
-  createProductionOrder = (order) => this.ordersEndpoint.create(order);
+    /**
+     * Creates a productionOrder resource.
+     * @param {Object} resource - Resource to create, built by the ProductionOrderAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created resource.
+     */
+    createProductionOrder(resource) {
+        return this.#productionOrdersEndpoint.create(resource);
+    }
 
-  /** Retrieves the operations of all orders. */
-  getOperations = () => this.operationsEndpoint.getAll();
+    /**
+     * Retrieves the operations.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the operations.
+     */
+    getOperations() {
+        return this.#operationsEndpoint.getAll();
+    }
 
-  /** Updates an operation. */
-  updateOperation = (operation) => this.operationsEndpoint.update(operation, operation.id);
+    /**
+     * Updates a operation resource.
+     * @param {Object} resource - Resource to update, built by the OperationAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the updated resource.
+     */
+    updateOperation(resource) {
+        return this.#operationsEndpoint.update(resource.id, resource);
+    }
 
-  /** Retrieves the batches. */
-  getBatches = () => this.batchesEndpoint.getAll();
+    /**
+     * Retrieves the batches.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the batches.
+     */
+    getBatches() {
+        return this.#batchesEndpoint.getAll();
+    }
 
-  /** Creates a batch. */
-  createBatch = (batch) => this.batchesEndpoint.create(batch);
+    /**
+     * Creates a batch resource.
+     * @param {Object} resource - Resource to create, built by the BatchAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created resource.
+     */
+    createBatch(resource) {
+        return this.#batchesEndpoint.create(resource);
+    }
 
-  /** Updates a batch. */
-  updateBatch = (batch) => this.batchesEndpoint.update(batch, batch.id);
+    /**
+     * Updates a batch resource.
+     * @param {Object} resource - Resource to update, built by the BatchAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the updated resource.
+     */
+    updateBatch(resource) {
+        return this.#batchesEndpoint.update(resource.id, resource);
+    }
 
-  /** Retrieves the status history of all batches. */
-  getBatchEvents = () => this.batchEventsEndpoint.getAll();
+    /**
+     * Retrieves the batch events.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the batch events.
+     */
+    getBatchEvents() {
+        return this.#batchEventsEndpoint.getAll();
+    }
 
-  /** Adds an entry to the status history of a batch. */
-  createBatchEvent = (event) => this.batchEventsEndpoint.create(event);
+    /**
+     * Creates a batchEvent resource.
+     * @param {Object} resource - Resource to create, built by the BatchEventAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created resource.
+     */
+    createBatchEvent(resource) {
+        return this.#batchEventsEndpoint.create(resource);
+    }
 
-  /** Retrieves the raw-material lots. */
-  getMaterialLots = () => this.materialLotsEndpoint.getAll();
+    /**
+     * Retrieves the material lots.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the material lots.
+     */
+    getMaterialLots() {
+        return this.#materialLotsEndpoint.getAll();
+    }
 
-  /** Records a raw-material receipt. */
-  createMaterialLot = (lot) => this.materialLotsEndpoint.create(lot);
+    /**
+     * Creates a materialLot resource.
+     * @param {Object} resource - Resource to create, built by the MaterialLotAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created resource.
+     */
+    createMaterialLot(resource) {
+        return this.#materialLotsEndpoint.create(resource);
+    }
 
-  /** Updates a raw-material lot. */
-  updateMaterialLot = (lot) => this.materialLotsEndpoint.update(lot, lot.id);
+    /**
+     * Updates a materialLot resource.
+     * @param {Object} resource - Resource to update, built by the MaterialLotAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the updated resource.
+     */
+    updateMaterialLot(resource) {
+        return this.#materialLotsEndpoint.update(resource.id, resource);
+    }
 }
