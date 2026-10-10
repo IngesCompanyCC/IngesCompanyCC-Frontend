@@ -1,14 +1,14 @@
 # Architecture Decision Records (ADRs)
 
-## 1. Use Zoneless View with Signals
+## 1. Use Zoneless Vue 3 with Signals
 **Date:** 2026-10-09
 **Status:** Accepted
 
 ### Context
-View introduced zoneless change detection using Signals. We need a performant way to manage state in the frontend without relying on zone.js.
+Vue 3 introduced zoneless change detection using Signals. We need a performant way to manage state in the frontend without relying on zone.js.
 
 ### Decision
-We will completely drop zone.js and use a fully Zoneless architecture. State management will be handled natively via Angular Signals in our Application layer (Stores).
+We will completely drop zone.js and use a fully Zoneless architecture. State management will be handled natively via Vue Signals in our Application layer (Stores).
 
 ---
 
