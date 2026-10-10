@@ -41,6 +41,10 @@ const plansUrl = `${import.meta.env.VITE_LANDING_PAGE_URL}#plans`;
     </div>
 
     <p class="links">
+      <strong>{{ t('iam.selection.new-laboratory') }}</strong>
+      <router-link :to="{ name: 'organization-registration' }">{{ t('iam.selection.register') }} →</router-link>
+    </p>
+    <p class="links">
       <strong>{{ t('iam.selection.not-customer') }}</strong>
       <a :href="plansUrl">{{ t('iam.selection.see-plans') }} →</a>
     </p>
