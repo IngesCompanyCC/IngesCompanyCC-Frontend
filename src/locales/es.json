@@ -19,7 +19,8 @@
     "products-formulas": "Productos y fórmulas",
     "batches": "Lotes",
     "raw-materials": "Materias primas",
-    "subscription-payments": "Suscripción y pagos"
+    "subscription-payments": "Suscripción y pagos",
+    "administration-overview": "Resumen de administración"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. Todos los derechos reservados.",
@@ -120,6 +121,19 @@
       "denied-text": "Tu identidad fue verificada, pero tu rol ({role}) no da acceso al entorno {environment}. Pide al administrador del laboratorio que revise tu rol, o continúa en tu propio entorno.",
       "choose-another-environment": "Elegir otro entorno",
       "other-account": "Iniciar sesión con otra cuenta"
+    },
+    "users": {
+      "user": "Usuario",
+      "profile": "Perfil",
+      "facility": "Sede",
+      "status": "Estado"
+    },
+    "status": {
+      "active": "Activo",
+      "invited": "Invitado",
+      "pending": "Pendiente",
+      "accepted": "Aceptada",
+      "expired": "Vencida"
     }
   },
   "privileges": {

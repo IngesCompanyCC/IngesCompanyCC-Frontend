@@ -28,6 +28,7 @@ export const workspaceEnvironments = {
         icon: 'pi pi-shield',
         features: ['organization-plants', 'users-roles', 'subscription-payments', 'profile-preferences'],
         navigation: [
+            { to: '/administration/overview', label: 'nav.administration-overview' },
             { to: '/administration/subscription', label: 'nav.subscription-payments' }
         ]
     }

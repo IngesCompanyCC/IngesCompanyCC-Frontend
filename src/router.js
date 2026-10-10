@@ -2,7 +2,7 @@ import {createRouter, createWebHistory} from "vue-router";
 import iamRoutes from "./iam/presentation/iam-routes.js";
 import manufacturingRoutes from "./manufacturing/presentation/manufacturing-routes.js";
 import subscriptionsRoutes from "./subscriptions/presentation/subscriptions-routes.js";
-import {organizationsPublicRoutes} from "./organizations/presentation/organizations-routes.js";
+import {organizationsAdministrationRoutes, organizationsPublicRoutes} from "./organizations/presentation/organizations-routes.js";
 import {authenticationGuard} from "./iam/infrastructure/authentication.guard.js";
 import useIamStore from "./iam/application/iam.store.js";
 import {homeOf} from "./shared/presentation/workspace-environments.js";
@@ -19,7 +19,7 @@ const routes = [
     { path: '/register',         children: organizationsPublicRoutes },
     { path: '/qa',               component: layout,       meta: { environment: 'qa' },             children: [notFound] },
     { path: '/production',       component: layout,       meta: { environment: 'production' },     children: [...manufacturingRoutes, notFound] },
-    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...subscriptionsRoutes, notFound] },
+    { path: '/administration',   component: layout,       meta: { environment: 'administration' }, children: [...organizationsAdministrationRoutes, ...subscriptionsRoutes, notFound] },
     { path: '/',                 redirect: () => {
         const user = useIamStore().currentUser;
         return user ? homeOf(user.environment) : '/sign-in';

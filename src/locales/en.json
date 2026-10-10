@@ -19,7 +19,8 @@
     "products-formulas": "Products & formulas",
     "batches": "Batches",
     "raw-materials": "Raw materials",
-    "subscription-payments": "Subscriptions & payments"
+    "subscription-payments": "Subscriptions & payments",
+    "administration-overview": "Administration overview"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. All rights reserved.",
@@ -120,6 +121,19 @@
       "denied-text": "Your identity was verified, but your role ({role}) does not grant access to the {environment} environment. Ask your laboratory administrator to review your role, or continue in your own environment.",
       "choose-another-environment": "Choose another environment",
       "other-account": "Sign in with another account"
+    },
+    "users": {
+      "user": "User",
+      "profile": "Profile",
+      "facility": "Facility",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "invited": "Invited",
+      "pending": "Pending",
+      "accepted": "Accepted",
+      "expired": "Expired"
     }
   },
   "privileges": {
