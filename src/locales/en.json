@@ -27,7 +27,8 @@
     "incidents": "Incidents",
     "quality-overview": "Quality overview",
     "quality-indicators": "Quality indicators",
-    "quality-documents": "Quality documents"
+    "quality-documents": "Quality documents",
+    "deviations": "Deviations"
   },
   "footer": {
     "copyright": "Copyright © 2026 IngesCompany. All rights reserved.",
