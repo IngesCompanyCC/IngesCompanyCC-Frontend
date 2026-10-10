@@ -10,7 +10,8 @@ export const workspaceEnvironments = {
         features: ['documents', 'analytical-results', 'deviations-capa', 'batch-release', 'audits'],
         navigation: [
             { to: '/qa/overview', label: 'nav.quality-overview' },
-            { to: '/qa/indicators', label: 'nav.quality-indicators' }
+            { to: '/qa/indicators', label: 'nav.quality-indicators' },
+            { to: '/qa/documents', label: 'nav.quality-documents' }
         ]
     },
     production: {
