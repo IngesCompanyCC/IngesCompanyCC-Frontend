@@ -1,4 +1,4 @@
-﻿import {createRouter, createWebHistory} from "vue-router";
+import {createRouter, createWebHistory} from "vue-router";
 import manufacturingRoutes from "./manufacturing/presentation/manufacturing-routes.js";
 
 const pageNotFound = () => import('./shared/presentation/views/page-not-found.vue');
@@ -14,9 +14,15 @@ const router = createRouter({
     routes: routes,
 });
 
-router.beforeEach((to, from) => {
-    let baseTitle = 'IngesCompany';
-    document.title = ` - `;
+/**
+ * Global navigation guard that sets the document title from the route meta.
+ *
+ * @param {import('vue-router').RouteLocationNormalized} to - Target route.
+ * @returns {boolean} True to allow navigation.
+ */
+router.beforeEach((to) => {
+    const baseTitle = 'DoofPlus';
+    document.title = to.meta['title'] ? `${baseTitle} - ${to.meta['title']}` : baseTitle;
     return true;
 });
 
