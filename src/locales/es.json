@@ -1,9 +1,28 @@
 {
-  "footer-content": {
-    "product": "Producto",
-    "features": "Características",
-    "pricing": "Precios",
-    "howItWorks": "Cómo Funciona",
-    "contact": "Contacto"
+  "shell": {
+    "workspace": "Espacio de trabajo",
+    "home": "Inicio de DoofPlus",
+    "menu": "Abrir menú",
+    "language": "Idioma",
+    "skip-to-content": "Saltar al contenido principal",
+    "main-navigation": "Navegación del espacio de trabajo",
+    "legal": "Información legal"
+  },
+  "nav": {
+    "production-overview": "Resumen de producción",
+    "production-orders": "Órdenes de producción",
+    "products-formulas": "Productos y fórmulas",
+    "batches": "Lotes",
+    "raw-materials": "Materias primas"
+  },
+  "footer": {
+    "copyright": "Copyright © 2026 IngesCompany. Todos los derechos reservados.",
+    "terms": "Términos del servicio",
+    "privacy": "Política de privacidad"
+  },
+  "page-not-found": {
+    "title": "Página no encontrada",
+    "content": "La página {unavailable-route} no existe o fue movida.",
+    "go-home": "Ir al inicio"
   }
 }

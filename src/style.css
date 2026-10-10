@@ -59,3 +59,20 @@ a {
 .muted {
   color: var(--muted);
 }
+
+/* ---------- Accessibility ---------- */
+
+.skip-link {
+  position: absolute;
+  top: -48px;
+  left: 16px;
+  z-index: 1200;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background: var(--teal);
+  color: #fff;
+}
+
+.skip-link:focus {
+  top: 16px;
+}

@@ -4,6 +4,7 @@ import App from './app.vue'
 import i18n from "./i18n.js";
 import PrimeVue from 'primevue/config';
 import Material from '@primeuix/themes/material';
+import {definePreset} from '@primeuix/themes';
 import 'primeflex/primeflex.css';
 import 'primeicons/primeicons.css';
 import Tooltip from 'primevue/tooltip';
@@ -40,10 +41,20 @@ import pinia from "./pinia.js";
 
 const primeUiLicenseKey = import.meta.env.VITE_PRIME_UI_LICENSE_KEY;
 
+// DoofPlus theme: Material preset with the teal brand color as primary.
+const DoofPlusPreset = definePreset(Material, {
+    semantic: {
+        primary: {
+            50: '{teal.50}', 100: '{teal.100}', 200: '{teal.200}', 300: '{teal.300}', 400: '{teal.400}', 500: '{teal.500}',
+            600: '{teal.600}', 700: '{teal.700}', 800: '{teal.800}', 900: '{teal.900}', 950: '{teal.950}'
+        }
+    }
+});
+
 // noinspection JSCheckFunctionSignatures
 createApp(App)
     .use(i18n)
-    .use(PrimeVue, {theme: { preset: Material}, ripple: true, license: primeUiLicenseKey})
+    .use(PrimeVue, {theme: { preset: DoofPlusPreset, options: { darkModeSelector: false } }, ripple: true, license: primeUiLicenseKey})
     .use(ConfirmationService)
     .use(DialogService)
     .use(ToastService)

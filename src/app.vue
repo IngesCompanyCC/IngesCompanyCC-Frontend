@@ -1,10 +1,7 @@
-﻿<script setup>
-import {useI18n} from "vue-i18n";
-const { t } = useI18n();
+<script setup>
+import Layout from "./shared/presentation/components/layout.vue";
 </script>
 
 <template>
-  <main>
-    <router-view/>
-  </main>
+  <layout/>
 </template>
