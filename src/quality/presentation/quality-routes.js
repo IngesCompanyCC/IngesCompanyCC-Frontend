@@ -5,6 +5,7 @@ const deviationDetail = () => import('./views/deviation-detail/deviation-detail.
 const capaManagement = () => import('./views/capa-management/capa-management.vue');
 const batchRelease = () => import('./views/batch-release/batch-release.vue');
 const analyticalResults = () => import('./views/analytical-results/analytical-results.vue');
+const auditManagement = () => import('./views/audit-management/audit-management.vue');
 /**
  * Routes shared by every environment: audit trail and tasks.
  */
@@ -20,5 +21,6 @@ export const qualityRoutes = [
     { path: 'deviations', component: deviationDetail, meta: { title: 'Deviations' } },
     { path: 'capa', component: capaManagement, meta: { title: 'CAPA plans' } },
     { path: 'batch-release', component: batchRelease, meta: { title: 'Batch release' } },
-    { path: 'analytical-results', component: analyticalResults, meta: { title: 'Analytical results' } }
+    { path: 'analytical-results', component: analyticalResults, meta: { title: 'Analytical results' } },
+    { path: 'audits', component: auditManagement, meta: { title: 'Audits' } }
 ];
