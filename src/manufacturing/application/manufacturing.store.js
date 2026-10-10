@@ -1,241 +1,75 @@
-/**
- * Reason why a batch could not be created.
- */
-export type BatchRejection = 'duplicate-code' | 'formula-not-approved';
+﻿import { defineStore } from 'pinia';
+import { ref, computed } from 'vue';
+import { ManufacturingApi } from '../infrastructure/manufacturing-api.js';
 
-/**
- * Holds products, master formulas, production orders, batches and raw-material lots.
- */
-@Injectable({providedIn: 'root'})
-export class ManufacturingStore {
-  private readonly manufacturingApi = inject(ManufacturingApi);
+export const useManufacturingStore = defineStore('manufacturing', () => {
+  const api = new ManufacturingApi();
 
-  private readonly productsSignal = signal<Product[]>([]);
-  private readonly formulasSignal = signal<MasterFormula[]>([]);
-  private readonly formulaItemsSignal = signal<FormulaItem[]>([]);
-  private readonly ordersSignal = signal<ProductionOrder[]>([]);
-  private readonly operationsSignal = signal<Operation[]>([]);
-  private readonly batchesSignal = signal<Batch[]>([]);
-  private readonly batchEventsSignal = signal<BatchEvent[]>([]);
-  private readonly materialLotsSignal = signal<MaterialLot[]>([]);
-  private readonly loadingSignal = signal(false);
-  private readonly errorSignal = signal<string | null>(null);
+  const products = ref([]);
+  const formulas = ref([]);
+  const formulaItems = ref([]);
+  const orders = ref([]);
+  const operations = ref([]);
+  const batches = ref([]);
+  const batchEvents = ref([]);
+  const materialLots = ref([]);
+  const loading = ref(false);
+  const error = ref(null);
 
-  readonly products = this.productsSignal.asReadonly();
-  readonly formulas = this.formulasSignal.asReadonly();
-  readonly formulaItems = this.formulaItemsSignal.asReadonly();
-  readonly orders = this.ordersSignal.asReadonly();
-  readonly operations = this.operationsSignal.asReadonly();
-  readonly batches = this.batchesSignal.asReadonly();
-  readonly batchEvents = this.batchEventsSignal.asReadonly();
-  readonly materialLots = this.materialLotsSignal.asReadonly();
-  readonly loading = this.loadingSignal.asReadonly();
-  readonly error = this.errorSignal.asReadonly();
-
-  /**
-   * Number of batches in each status.
-   */
-  readonly batchCounts = computed(() => {
-    const counts number> = {};
-    this.batches().forEach(batch => counts[batch.status] = (counts[batch.status] ?? 0) + 1);
-    return counts;
-  });
-
-  /**
-   * Creates the store and loads the manufacturing data.
-   */
-  constructor() {
-    this.load(this.manufacturingApi.getProducts(), this.productsSignal, 'products');
-    this.load(this.manufacturingApi.getMasterFormulas(), this.formulasSignal, 'master formulas');
-    this.load(this.manufacturingApi.getFormulaItems(), this.formulaItemsSignal, 'formula items');
-    this.load(this.manufacturingApi.getProductionOrders(), this.ordersSignal, 'production orders');
-    this.load(this.manufacturingApi.getOperations(), this.operationsSignal, 'operations');
-    this.load(this.manufacturingApi.getBatches(), this.batchesSignal, 'batches');
-    this.load(this.manufacturingApi.getBatchEvents(), this.batchEventsSignal, 'batch history');
-    this.load(this.manufacturingApi.getMaterialLots(), this.materialLotsSignal, 'raw materials');
-  }
-
-  /** Product with the given code. */
-  productByCode = (code) | undefined> => computed(() => this.products().find(item => item.code === code));
-
-  /** Approved (effective) master formula of a product. */
-  effectiveFormula = (productCode) | undefined> =>
-    computed(() => this.formulas().find(formula => formula.productCode === productCode && formula.status === 'approved'));
-
-  /** Components and parameters of a master formula. */
-  itemsOfFormula = (formulaId) =>
-    computed(() => this.formulaItems().filter(item => item.formulaId === formulaId));
-
-  /** Production order with the given code. */
-  orderByCode = (code) | undefined> => computed(() => this.orders().find(item => item.code === code));
-
-  /** Operations of an order, in sequence. */
-  operationsOfOrder = (orderId) =>
-    computed(() => this.operations().filter(item => item.orderId === orderId).sort((a, b) => a.sequence - b.sequence));
-
-  /** Batch with the given code. */
-  batchByCode = (code) | undefined> => computed(() => this.batches().find(item => item.code === code));
-
-  /** Status history of a batch, oldest first. */
-  eventsOfBatch = (batchCode) =>
-    computed(() => this.batchEvents().filter(item => item.batchCode === batchCode).sort((a, b) => a.occurredAt.localeCompare(b.occurredAt)));
-
-  /** Raw-material lots allocated to a batch. */
-  lotsOfBatch = (batchCode) =>
-    computed(() => this.materialLots().filter(item => item.allocatedBatch === batchCode));
-
-  /**
-   * Registers a product when its code is unique.
-   * @param product - Product to register.
-   * @returns False when the code already exists.
-   */
-  addProduct = (product) => {
-    if (this.products().some(item => item.code.toUpperCase() === product.code.toUpperCase())) return false;
-    this.manufacturingApi.createProduct(product).pipe(retry(2)).subscribe({
-      next: created => this.productsSignal.update(items => [...items, created]),
-      error: err => this.errorSignal.set(this.formatError(err, 'Failed to register the product'))
-    });
-    return true;
-  };
-
-  /**
-   * Checks the rules to create a batch: a unique code and an approved master formula.
-   * @param code - Batch code.
-   * @param productCode - Code of the product.
-   * @returns The reasons why the batch cannot be created (empty when it can).
-   */
-  validateBatch = (code, productCode) => {
-    const reasons = [];
-    if (this.batches().some(batch => batch.code.toUpperCase() === code.toUpperCase())) reasons.push('duplicate-code');
-    if (!this.effectiveFormula(productCode)()) reasons.push('formula-not-approved');
-    return reasons;
-  };
-
-  /**
-   * Creates a planned batch and its production order with the effective master formula.
-   * @param batch - Batch to create.
-   */
-  addBatch = (batch): void => {
-    const formula = this.effectiveFormula(batch.productCode)();
-    if (!formula) return;
-    this.loadingSignal.set(true);
-    this.manufacturingApi.createBatch(batch).pipe(retry(2)).subscribe({
-      next: created => {
-        this.batchesSignal.update(items => [created, ...items]);
-        this.loadingSignal.set(false);
-        this.addEvent(created.code, 'Created & materials allocated', created.owner, 'normal');
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to create the batch'));
-        this.loadingSignal.set(false);
-      }
-    });
-    this.manufacturingApi.createProductionOrder(new ProductionOrder({
-      id: 0, code: batch.orderCode, productCode: batch.productCode, formulaId: formula.id, batchCode: batch.code,
-      plannedQuantity: batch.quantity, line: batch.line, status: 'planned',
-      plannedStart: new Date().toISOString(), plannedEnd: new Date().toISOString()
-    })).subscribe({
-      next: order => this.ordersSignal.update(items => [...items, order]),
-      error: err => this.errorSignal.set(this.formatError(err, 'Failed to create the production order'))
-    });
-  };
-
-  /**
-   * Records progress on the next pending operation of an order. Not allowed while an operation is on hold.
-   * @param orderId - Identifier of the order.
-   */
-  recordOperation = (orderId): void => {
-    const operations = this.operationsOfOrder(orderId)();
-    if (operations.some(operation => operation.status === 'on-hold')) return;
-    const next = operations.find(operation => operation.status !== 'complete');
-    if (!next) return;
-    next.progress = 100;
-    next.status = 'complete';
-    this.manufacturingApi.updateOperation(next).pipe(retry(2)).subscribe({
-      next: updated => this.operationsSignal.update(items => items.map(item => item.id === updated.id ? updated : item)),
-      error: err => this.errorSignal.set(this.formatError(err, 'Failed to record the operation'))
-    });
-  };
-
-  /**
-   * Releases a batch after the QA electronic signature.
-   * @param batchCode - Code of the batch.
-   */
-  releaseBatch = (batchCode): void => {
-    const batch = this.batchByCode(batchCode)();
-    if (!batch) return;
-    batch.status = 'released';
-    batch.lastActivity = 'Released by QA';
-    batch.lastActivityAt = new Date().toISOString();
-    this.manufacturingApi.updateBatch(batch).pipe(retry(2)).subscribe({
-      next: updated => this.batchesSignal.update(items => items.map(item => item.id === updated.id ? updated : item)),
-      error: err => this.errorSignal.set(this.formatError(err, 'Failed to release the batch'))
-    });
-    this.addEvent(batchCode, 'Released for distribution', 'QA electronic signature', 'normal');
-  };
-
-  /**
-   * Records a raw-material receipt; the lot enters quarantine and moves to sampling.
-   * @param lot - Lot received.
-   */
-  addMaterialLot = (lot): void => {
-    this.loadingSignal.set(true);
-    this.manufacturingApi.createMaterialLot(lot).pipe(retry(2)).subscribe({
-      next: created => {
-        this.materialLotsSignal.update(items => [created, ...items]);
-        this.loadingSignal.set(false);
-      },
-      error: err => {
-        this.errorSignal.set(this.formatError(err, 'Failed to record the receipt'));
-        this.loadingSignal.set(false);
-      }
-    });
-  };
-
-  /**
-   * Requests the QC inspection of a lot in quarantine.
-   * @param lot - Lot to inspect.
-   */
-  requestInspection = (lot): void => {
-    lot.samplingStatus = 'requested';
-    lot.status = 'inspection';
-    this.manufacturingApi.updateMaterialLot(lot).pipe(retry(2)).subscribe({
-      next: updated => this.materialLotsSignal.update(items => items.map(item => item.id === updated.id ? updated : item)),
-      error: err => this.errorSignal.set(this.formatError(err, 'Failed to request the inspection'))
-    });
-  };
-
-  /**
-   * Adds an entry to the status history of a batch.
-   * @param batchCode - Code of the batch.
-   * @param title - What happened.
-   * @param detail - Who or what was involved.
-   * @param tone - Color of the entry.
-   */
-  private addEvent(batchCode, title, detail, tone): void {
-    this.manufacturingApi.createBatchEvent(new BatchEvent({id: 0, batchCode, title, detail, occurredAt: new Date().toISOString(), tone}))
-      .subscribe({next: event => this.batchEventsSignal.update(items => [...items, event])});
-  }
-
-  /**
-   * Loads a collection into a signal.
-   * @param source - Request that returns the collection.
-   * @param target - Signal that stores it.
-   * @param name - Name used in the error message.
-   */
-  private load(source target name): void {
-    source.subscribe({
-      next: items => target.set(items),
-      error: err => this.errorSignal.set(this.formatError(err, `Failed to load ${name}`))
+  function loadAll() {
+    loading.value = true;
+    error.value = null;
+    Promise.all([
+      api.getProducts(),
+      api.getMasterFormulas(),
+      api.getFormulaItems(),
+      api.getProductionOrders(),
+      api.getOperations(),
+      api.getBatches(),
+      api.getBatchEvents(),
+      api.getMaterialLots()
+    ]).then(([
+      productsRes,
+      formulasRes,
+      formulaItemsRes,
+      ordersRes,
+      operationsRes,
+      batchesRes,
+      batchEventsRes,
+      materialLotsRes
+    ]) => {
+      products.value = productsRes.data;
+      formulas.value = formulasRes.data;
+      formulaItems.value = formulaItemsRes.data;
+      orders.value = ordersRes.data;
+      operations.value = operationsRes.data;
+      batches.value = batchesRes.data;
+      batchEvents.value = batchEventsRes.data;
+      materialLots.value = materialLotsRes.data;
+    }).catch(e => {
+      error.value = e.message || 'Failed to load manufacturing data';
+      console.error(e);
+    }).finally(() => {
+      loading.value = false;
     });
   }
 
-  /**
-   * Normalizes unknown errors into a display-friendly message.
-   * @param error - Source error.
-   * @param fallback - Default message when details are unavailable.
-   * @returns Normalized message.
-   */
-  private formatError = (error: unknown, fallback) =>
-    error instanceof Error ? error.message : fallback;
-}
+  function getBatchEvents(batchCode) {
+    return batchEvents.value.filter(e => e.batchCode === batchCode);
+  }
+
+  return {
+    products,
+    formulas,
+    formulaItems,
+    orders,
+    operations,
+    batches,
+    batchEvents,
+    materialLots,
+    loading,
+    error,
+    loadAll,
+    getBatchEvents
+  };
+});
