@@ -16,7 +16,6 @@ export const workspaceEnvironments = {
         icon: 'pi pi-cog',
         features: ['products-formulas', 'production-orders', 'batch-execution', 'raw-material-receipt'],
         navigation: [
-            { to: '/production/overview', label: 'nav.production-overview' },
             { to: '/production/orders', label: 'nav.production-orders' },
             { to: '/production/products', label: 'nav.products-formulas' },
             { to: '/production/batches', label: 'nav.batches' },
