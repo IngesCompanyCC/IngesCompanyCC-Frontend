@@ -6,7 +6,9 @@
     "language": "Idioma",
     "skip-to-content": "Saltar al contenido principal",
     "main-navigation": "Navegación del espacio de trabajo",
-    "legal": "Información legal"
+    "legal": "Información legal",
+    "user-menu": "Menú de usuario",
+    "sign-out": "Cerrar sesión"
   },
   "nav": {
     "production-overview": "Resumen de producción",
@@ -113,5 +115,12 @@
       "choose-another-environment": "Elegir otro entorno",
       "other-account": "Iniciar sesión con otra cuenta"
     }
+  },
+  "privileges": {
+    "qa-release": "Privilegio de liberación QA",
+    "no-final-release": "Supervisor · Sin liberación final",
+    "administrator": "Administrador",
+    "read-only": "Solo lectura",
+    "none": "Acceso estándar"
   }
 }

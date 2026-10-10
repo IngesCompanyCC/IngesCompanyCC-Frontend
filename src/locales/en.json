@@ -6,7 +6,9 @@
     "language": "Language",
     "skip-to-content": "Skip to main content",
     "main-navigation": "Workspace navigation",
-    "legal": "Legal information"
+    "legal": "Legal information",
+    "user-menu": "User menu",
+    "sign-out": "Sign out"
   },
   "nav": {
     "production-overview": "Production overview",
@@ -113,5 +115,12 @@
       "choose-another-environment": "Choose another environment",
       "other-account": "Sign in with another account"
     }
+  },
+  "privileges": {
+    "qa-release": "QA release privilege",
+    "no-final-release": "Supervisor · No final release",
+    "administrator": "Administrator",
+    "read-only": "Read-only",
+    "none": "Standard access"
   }
 }

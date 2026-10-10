@@ -1,10 +1,22 @@
 <script setup>
-import {ref} from "vue";
+import {computed, ref} from "vue";
+import {useRoute, useRouter} from "vue-router";
 import {useI18n} from "vue-i18n";
 import LanguageSwitcher from "./language-switcher.vue";
 import FooterContent from "./footer-content.vue";
+import useIamStore from "../../../iam/application/iam.store.js";
+import {homeOf, workspaceEnvironments} from "../workspace-environments.js";
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const store = useIamStore();
+
+/** Environment of the workspace, from the route meta. */
+const environment = computed(() => route.meta['environment']);
+/** Sidebar links of the environment. */
+const items = computed(() => workspaceEnvironments[environment.value]?.navigation ?? []);
+const home = computed(() => homeOf(environment.value));
 
 const drawer = ref(false);
 /**
@@ -14,22 +26,24 @@ const toggleDrawer = () => {
   drawer.value = !drawer.value;
 };
 
-const items = [
-  { label: 'nav.production-overview', to: '/production/overview' },
-  { label: 'nav.production-orders', to: '/production/orders' },
-  { label: 'nav.products-formulas', to: '/production/products' },
-  { label: 'nav.batches', to: '/production/batches' },
-  { label: 'nav.raw-materials', to: '/production/raw-materials' }
-];
+const userMenu = ref();
+const userMenuItems = computed(() => [
+  { label: t('shell.sign-out'), icon: 'pi pi-sign-out', command: () => store.signOut(router) }
+]);
 </script>
 
 <template>
   <a class="skip-link" href="#content">{{ t('shell.skip-to-content') }}</a>
   <div class="workspace">
     <aside class="sidebar hidden md:flex">
-      <router-link :to="items[0].to" class="brand" :aria-label="t('shell.home')">
+      <router-link :to="home" class="brand" :aria-label="t('shell.home')">
         <img src="/doofplus-wordmark.png" alt="DoofPlus">
       </router-link>
+      <div v-if="store.currentUser" class="organization">
+        <strong>{{ store.currentUser.organizationName }}</strong>
+        <span>{{ store.currentUser.plant }} · {{ t(`environments.${environment}.short`) }}</span>
+        <span class="privilege">{{ t(`privileges.${store.currentUser.privilege}`) }}</span>
+      </div>
       <p class="section-title">{{ t('shell.workspace') }}</p>
       <nav :aria-label="t('shell.main-navigation')">
         <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link">{{ t(item.label) }}</router-link>
@@ -48,7 +62,20 @@ const items = [
           <pv-button class="md:hidden" icon="pi pi-bars" text rounded :aria-label="t('shell.menu')" @click="toggleDrawer"/>
         </template>
         <template #end>
-          <language-switcher/>
+          <div class="flex align-items-center gap-3">
+            <language-switcher/>
+            <template v-if="store.currentUser">
+              <button type="button" class="user-button" aria-haspopup="true" aria-controls="user-menu"
+                      :aria-label="`${t('shell.user-menu')}: ${store.currentUser.fullName}`" @click="userMenu.toggle($event)">
+                <span class="avatar" aria-hidden="true">{{ store.currentUser.initials }}</span>
+                <span class="user-text hidden sm:flex">
+                  <strong>{{ store.currentUser.fullName }}</strong>
+                  <span>{{ t(`roles.${store.currentUser.role}`) }}</span>
+                </span>
+              </button>
+              <pv-menu id="user-menu" ref="userMenu" :model="userMenuItems" popup/>
+            </template>
+          </div>
         </template>
       </pv-toolbar>
       <main id="content" class="content" tabindex="-1">
@@ -81,6 +108,25 @@ const items = [
 .brand img {
   height: 34px;
   filter: brightness(0) invert(1);
+}
+
+.organization {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 14px 12px;
+  border-radius: 8px;
+  background: var(--navy-soft);
+}
+
+.organization span {
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.organization .privilege {
+  margin-top: 14px;
+  color: #fff;
 }
 
 .section-title {
@@ -140,6 +186,46 @@ nav {
   border-bottom: 1px solid var(--border);
   border-radius: 0;
   background: #fff;
+}
+
+.user-button {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--navy);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.user-button:hover {
+  background: var(--gray-bg);
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--teal);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.user-text {
+  flex-direction: column;
+  font-size: 13px;
+}
+
+.user-text span {
+  color: var(--muted);
 }
 
 .content {
