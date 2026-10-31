@@ -127,8 +127,8 @@ const submit = () => {
           <p>{{ t(`organizations.registration.intro.${item}-text`) }}</p>
         </div>
         <nav class="intro-links" :aria-label="t('shell.legal')">
-          <a :href="`${landingPageUrl}privacy.html`">{{ t('footer.privacy') }}</a>
-          <a :href="`${landingPageUrl}terms.html`">{{ t('footer.terms') }}</a>
+          <a :href="`${landingPageUrl}privacy.html`" target="_blank" rel="noopener">{{ t('footer.privacy') }}</a>
+          <a :href="`${landingPageUrl}terms.html`" target="_blank" rel="noopener">{{ t('footer.terms') }}</a>
         </nav>
       </aside>
 

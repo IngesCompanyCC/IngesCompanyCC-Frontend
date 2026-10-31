@@ -23,10 +23,10 @@ const landingPageUrl = import.meta.env.VITE_LANDING_PAGE_URL;
     <!-- Legal links navigation container with dynamic accessibility label -->
     <nav class="flex gap-4" :aria-label="t('shell.legal')">
       <!-- External link to the Terms and Conditions page -->
-      <a :href="`${landingPageUrl}terms.html`">{{ t('footer.terms') }}</a>
+      <a :href="`${landingPageUrl}terms.html`" target="_blank" rel="noopener">{{ t('footer.terms') }}</a>
 
       <!-- External link to the Privacy Policy page -->
-      <a :href="`${landingPageUrl}privacy.html`">{{ t('footer.privacy') }}</a>
+      <a :href="`${landingPageUrl}privacy.html`" target="_blank" rel="noopener">{{ t('footer.privacy') }}</a>
     </nav>
   </footer>
 </template>
