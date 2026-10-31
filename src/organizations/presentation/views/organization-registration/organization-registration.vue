@@ -1,6 +1,7 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, reactive, ref} from "vue";
 import {useI18n} from "vue-i18n";
+import {onBeforeRouteLeave} from "vue-router";
 import LanguageSwitcher from "../../../../shared/presentation/components/language-switcher.vue";
 import {formatCurrency} from "../../../../shared/presentation/format.js";
 import useOrganizationsStore from "../../../application/organizations.store.js";
@@ -21,11 +22,30 @@ const introItems = ['qa', 'production', 'access', 'permissions'];
 /** Plants offered as primary plant. */
 const plants = ['Ate plant · Lima, Peru', 'Lima QC laboratory · Lima, Peru', 'Arequipa plant · Arequipa, Peru'];
 
-/** Registration form. */
-const form = reactive({
+/** Initial values of the registration form. */
+const initialForm = {
   legalName: '', ruc: '', facilityName: plants[0], planKey: 'standard-lab', billingCycle: 'monthly',
   administratorName: '', administratorEmail: '', password: '', accepted: false
-});
+};
+/** Registration form. */
+const form = reactive({ ...initialForm });
+
+/** Whether the form has data that has not been registered yet. */
+const hasUnsavedChanges = () => store.registrationStep !== 'verification'
+    && Object.keys(initialForm).some(key => form[key] !== initialForm[key]);
+
+/** Asks for confirmation before leaving the registration with unsaved data. */
+onBeforeRouteLeave(() => !hasUnsavedChanges() || window.confirm(t('organizations.registration.leave-confirm')));
+
+/**
+ * Asks the browser to confirm when the tab is closed or reloaded with unsaved data.
+ * @param {BeforeUnloadEvent} event - Event raised before the page is unloaded.
+ */
+const warnBeforeUnload = (event) => {
+  if (hasUnsavedChanges()) event.preventDefault();
+};
+window.addEventListener('beforeunload', warnBeforeUnload);
+onBeforeUnmount(() => window.removeEventListener('beforeunload', warnBeforeUnload));
 /** Whether the form was submitted once, to show the validation messages. */
 const submitted = ref(false);
 /** Whether the plan options are open. */
