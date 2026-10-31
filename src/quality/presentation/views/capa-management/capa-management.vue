@@ -1,6 +1,7 @@
 <script setup>
 import {computed, ref, watch} from "vue";
 import {useI18n} from "vue-i18n";
+import {useToast} from "primevue/usetoast";
 import PageHeader from "../../../../shared/presentation/components/page-header.vue";
 import {formatDate} from "../../../../shared/presentation/format.js";
 import useQualityStore from "../../../application/quality.store.js";
@@ -10,6 +11,7 @@ import {CapaAction} from "../../../domain/model/capa-action.entity.js";
  * CAPA plan: actions and their evidence, root cause analysis, accountability and routing to an independent reviewer.
  */
 const { t, locale } = useI18n();
+const toast = useToast();
 const store = useQualityStore();
 
 /** Code of the plan shown. */
@@ -46,6 +48,7 @@ const saveRootCause = () => {
   if (!plan.value) return;
   store.saveCapa(plan.value, { rootCause: rootCause.value.trim() });
   rootCauseDirty.value = false;
+  toast.add({ severity: 'success', summary: t('quality.capa.toast-root-cause-saved'), life: 3000 });
 };
 
 /** Routes the plan for approval, or shows why it cannot be routed. */
@@ -136,10 +139,10 @@ const addAction = () => {
               <h2>{{ t('quality.capa.root-cause-analysis') }}</h2>
               <div class="field">
                 <label for="root-cause">{{ t('quality.capa.root-cause') }}</label>
-                <pv-textarea id="root-cause" v-model="rootCause" rows="3" fluid @input="rootCauseDirty = true"/>
+                <pv-textarea id="root-cause" v-model="rootCause" rows="3" fluid :readonly="plan.status === 'in-approval'" @input="rootCauseDirty = true"/>
               </div>
               <pv-button class="align-self-start" :label="t('quality.capa.save-root-cause')" severity="secondary" outlined
-                         :disabled="!rootCauseDirty" @click="saveRootCause"/>
+                         :disabled="!rootCauseDirty || plan.status === 'in-approval'" @click="saveRootCause"/>
               <div class="box teal">
                 <strong>{{ t('quality.capa.check') }} · {{ formatDate(plan.effectivenessCheckAt, locale) }}</strong>
                 <p>{{ t('quality.capa.check-text', { reviewer: plan.reviewer }) }}</p>
