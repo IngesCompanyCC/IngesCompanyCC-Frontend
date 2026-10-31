@@ -1072,7 +1072,13 @@
       "plan-evidence": "Evidence review",
       "plan-closing": "Closing meeting",
       "plan-report": "Final report approval",
-      "package": "Evidence package"
+      "package": "Evidence package",
+      "metadata": {
+        "version": "Version",
+        "reviewed": "Reviewed",
+        "uploaded": "Uploaded",
+        "questions": "questions"
+      }
     },
     "trail": {
       "subtitle": "Attributed record events with before/after values and controlled exports.",

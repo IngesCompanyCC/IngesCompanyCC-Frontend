@@ -1072,7 +1072,13 @@
       "plan-evidence": "Revisión de evidencias",
       "plan-closing": "Reunión de cierre",
       "plan-report": "Aprobación del informe final",
-      "package": "Paquete de evidencias"
+      "package": "Paquete de evidencias",
+      "metadata": {
+        "version": "Versión",
+        "reviewed": "Revisado",
+        "uploaded": "Subido",
+        "questions": "preguntas"
+      }
     },
     "trail": {
       "subtitle": "Eventos atribuidos de los registros con valores antes/después y exportaciones controladas.",
