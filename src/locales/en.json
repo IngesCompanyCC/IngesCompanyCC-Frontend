@@ -931,7 +931,9 @@
       "assessment": "QA product-impact assessment",
       "capa-linked": "CAPA linked",
       "release-decision": "Release decision",
-      "blocked-until": "Blocked until approved disposition"
+      "blocked-until": "Blocked until approved disposition",
+      "remove-evidence": "Remove evidence",
+      "toast-evidence-removed": "Evidence removed."
     },
     "capa": {
       "title": "CAPA plan",

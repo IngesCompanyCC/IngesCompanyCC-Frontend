@@ -241,6 +241,25 @@ const useQualityStore = defineStore('quality', () => {
     }
 
     /**
+     * Removes evidence attached by mistake. Reviewed evidence cannot be removed, so the investigation keeps its integrity.
+     * @param {Object} item - Evidence to remove.
+     * @returns {Promise<boolean>} Resolves to true when the evidence was removed.
+     */
+    function removeEvidence(item) {
+        if (item.status === 'reviewed') return Promise.resolve(false);
+        return qualityApi.deleteEvidence(item.id)
+            .then(() => {
+                evidence.value = evidence.value.filter(current => current.id !== item.id);
+                log('Evidence removed', item.recordCode, 'Deleted');
+                return true;
+            })
+            .catch(error => {
+                errors.value.push(error);
+                return false;
+            });
+    }
+
+    /**
      * Checks whether a CAPA plan can be routed for approval.
      * @param {Object} plan - CAPA plan.
      * @returns {Array<string>} Reasons why it cannot be routed (root-cause-required, evidence-missing, self-approval).
@@ -357,7 +376,7 @@ const useQualityStore = defineStore('quality', () => {
         documents, deviations, evidence, capaPlans, capaActions, results, audits, findings, events, reports, tasks, comments,
         gaps, trends, loading, errors, openDeviations, openActions,
         fetchAll, versionsOf, evidenceOf, actionsOf, resultsOf, findingsOf, commentsOf, nextCode, log,
-        approveDocument, registerDeviation, saveDeviation, submitAssessment, reviewEvidence, attachEvidence,
+        approveDocument, registerDeviation, saveDeviation, submitAssessment, reviewEvidence, attachEvidence, removeEvidence,
         validateCapa, saveCapa, routeCapa, attachActionEvidence, addAction, saveResult, addFinding, addReport, addTask,
         addComment, releaseChecks, signRelease
     };
