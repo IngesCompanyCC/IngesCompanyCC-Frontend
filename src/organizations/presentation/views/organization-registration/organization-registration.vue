@@ -93,6 +93,8 @@ const submit = () => {
   <div class="page-shell">
     <header class="top">
       <router-link to="/sign-in" :aria-label="t('shell.home')"><img src="/doofplus-wordmark.png" alt="DoofPlus"></router-link>
+      <router-link to="/sign-in" class="back"><i class="pi pi-arrow-left" aria-hidden="true"></i>{{ t('shell.back-to-sign-in') }}</router-link>
+      <span class="spacer"></span>
       <language-switcher/>
     </header>
 
@@ -231,10 +233,21 @@ const submit = () => {
 .top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 40px;
   height: 64px;
   padding: 0 64px;
   border-bottom: 1px solid var(--border);
+}
+
+.top .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.top .spacer {
+  flex: 1 1 auto;
 }
 
 .top img {
@@ -549,6 +562,14 @@ const submit = () => {
   .plan {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .top {
+    gap: 16px;
+  }
+
+  .top .back {
+    display: none;
   }
 }
 </style>
