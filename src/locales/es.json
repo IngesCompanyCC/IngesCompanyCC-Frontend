@@ -969,7 +969,8 @@
       "required-text": "Todos los elementos son obligatorios antes de enviar el plan.",
       "uploaded": "Subida",
       "pending": "Pendiente",
-      "uploaded-count": "{count} de {total} elementos subidos · aprobación bloqueada hasta adjuntar todos"
+      "uploaded-count": "{count} de {total} elementos subidos · aprobación bloqueada hasta adjuntar todos",
+      "toast-root-cause-saved": "Causa raíz guardada."
     },
     "release": {
       "released": "{code} fue liberado con firma electrónica.",

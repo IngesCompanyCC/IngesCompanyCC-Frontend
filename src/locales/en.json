@@ -969,7 +969,8 @@
       "required-text": "All items are required before routing the plan.",
       "uploaded": "Uploaded",
       "pending": "Pending",
-      "uploaded-count": "{count} of {total} items uploaded · approval blocked until all are attached"
+      "uploaded-count": "{count} of {total} items uploaded · approval blocked until all are attached",
+      "toast-root-cause-saved": "Root cause saved."
     },
     "release": {
       "released": "{code} was released with an electronic signature.",
