@@ -63,12 +63,10 @@ onMounted(() => {
 
     <pv-card class="summary">
       <template #content>
-        <div class="summary-grid">
-          <div><p class="value">{{ store.users.length }}</p><p class="stat-label">{{ t('iam.invite.active-users') }}</p></div>
-          <div><p class="value"><i class="pi pi-sync" aria-hidden="true"></i></p><p class="stat-label">{{ t('iam.invite.user-limit') }}</p></div>
-          <div><p class="value">{{ store.pendingInvitations.length }}</p><p class="stat-label">{{ t('iam.invite.pending') }}</p></div>
-          <div><p class="value">7 {{ t('iam.invite.days') }}</p><p class="stat-label">{{ t('iam.invite.expiry') }}</p></div>
-        </div>
+        <div><p class="value">{{ store.users.length }}</p><p class="stat-label">{{ t('iam.invite.active-users') }}</p></div>
+        <div><p class="value"><i class="pi pi-sync" aria-hidden="true"></i></p><p class="stat-label">{{ t('iam.invite.user-limit') }}</p></div>
+        <div><p class="value">{{ store.pendingInvitations.length }}</p><p class="stat-label">{{ t('iam.invite.pending') }}</p></div>
+        <div><p class="value">7 {{ t('iam.invite.days') }}</p><p class="stat-label">{{ t('iam.invite.expiry') }}</p></div>
       </template>
     </pv-card>
 
@@ -141,12 +139,6 @@ onMounted(() => {
 </template>
 
 <style scoped>
-.summary-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 16px;
-}
-
 .value {
   display: flex;
   align-items: center;
@@ -198,9 +190,4 @@ onMounted(() => {
 .state.duplicate-state { border-color: var(--danger-border); background: var(--danger-bg); color: var(--danger-dark); }
 .state.sent { border-color: #bbf7d0; background: #f0fdf4; color: var(--success); }
 
-@media (max-width: 720px) {
-  .summary-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 </style>
