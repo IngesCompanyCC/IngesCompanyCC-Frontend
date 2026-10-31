@@ -59,6 +59,14 @@ const addFinding = () => {
   submitted.value = false;
   adding.value = false;
 };
+
+/**
+ * Translates the metadata of a file of the evidence package (e.g. "Version 4.0 · Reviewed").
+ * @param {string} detail - Metadata registered in English.
+ * @returns {string} The metadata in the language of the interface.
+ */
+const formatDetail = (detail) => (detail ?? '')
+    .replace(/\b(Version|Reviewed|Uploaded|questions)\b/g, word => t(`quality.audits.metadata.${word.toLowerCase()}`));
 </script>
 
 <template>
@@ -170,7 +178,7 @@ const addFinding = () => {
               <h2>{{ t('quality.audits.package') }}</h2>
               <div v-for="item in evidence" :key="item.id" class="file">
                 <span class="type">{{ item.fileName.split('.').pop()?.toUpperCase() }}</span>
-                <div><strong>{{ item.fileName }}</strong><span class="small muted">{{ item.detail }}</span></div>
+                <div><strong>{{ item.fileName }}</strong><span class="small muted">{{ formatDetail(item.detail) }}</span></div>
               </div>
             </template>
           </pv-card>
