@@ -444,6 +444,12 @@
       "handover-2-text": "WO-26087 · Jorge Salas",
       "handover-3": "Afternoon shift at 14:00",
       "handover-3-text": "2 planned orders · 12 operators"
+    },
+    "dosage-forms": {
+      "tablet": "Tablet",
+      "capsule": "Capsule",
+      "syrup": "Syrup",
+      "injectable": "Injectable"
     }
   },
   "subscriptions": {

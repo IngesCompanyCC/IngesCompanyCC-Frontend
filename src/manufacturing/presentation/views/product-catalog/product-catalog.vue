@@ -26,6 +26,8 @@ const components = computed(() => formula.value
 
 /** Dosage forms offered in the form. */
 const dosageForms = ['Tablet', 'Capsule', 'Syrup', 'Injectable'];
+/** Dosage forms with their translated label. */
+const dosageFormOptions = computed(() => dosageForms.map(form => ({ value: form, label: t(`manufacturing.dosage-forms.${form.toLowerCase()}`) })));
 
 const code = ref('');
 const name = ref('');
@@ -79,7 +81,9 @@ const register = () => {
               <template #body="{ data }"><strong>{{ data.code }}</strong></template>
             </pv-column>
             <pv-column field="name" :header="t('manufacturing.products.product')"/>
-            <pv-column field="dosageForm" :header="t('manufacturing.products.dosage-form')"/>
+            <pv-column :header="t('manufacturing.products.dosage-form')">
+              <template #body="{ data }">{{ t(`manufacturing.dosage-forms.${data.dosageForm.toLowerCase()}`) }}</template>
+            </pv-column>
             <pv-column :header="t('manufacturing.products.formula')">
               <template #body="{ data }">{{ data.formulaVersion || '—' }}</template>
             </pv-column>
@@ -112,7 +116,7 @@ const register = () => {
             </div>
             <div class="field">
               <label for="product-form">{{ t('manufacturing.products.dosage-form') }} *</label>
-              <pv-select input-id="product-form" v-model="dosageForm" :options="dosageForms" fluid/>
+              <pv-select input-id="product-form" v-model="dosageForm" :options="dosageFormOptions" option-label="label" option-value="value" fluid/>
             </div>
             <pv-button type="submit" :label="t('manufacturing.products.register')" fluid/>
           </form>

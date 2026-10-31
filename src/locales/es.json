@@ -444,6 +444,12 @@
       "handover-2-text": "WO-26087 · Jorge Salas",
       "handover-3": "Turno tarde a las 14:00",
       "handover-3-text": "2 órdenes planificadas · 12 operarios"
+    },
+    "dosage-forms": {
+      "tablet": "Tableta",
+      "capsule": "Cápsula",
+      "syrup": "Jarabe",
+      "injectable": "Inyectable"
     }
   },
   "subscriptions": {
