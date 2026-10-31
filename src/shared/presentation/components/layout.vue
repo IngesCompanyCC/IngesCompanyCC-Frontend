@@ -17,6 +17,8 @@ const environment = computed(() => route.meta['environment']);
 /** Sidebar links of the environment. */
 const items = computed(() => workspaceEnvironments[environment.value]?.navigation ?? []);
 const home = computed(() => homeOf(environment.value));
+/** Landing Page of DoofPlus, whose FAQ answers the questions about the workspace. */
+const landingPageUrl = import.meta.env.VITE_LANDING_PAGE_URL;
 
 /**
  * Whether a sidebar link is the current page, including its detail pages (such as a batch of the batch list).
@@ -57,6 +59,9 @@ const userMenuItems = computed(() => [
       <nav :aria-label="t('shell.main-navigation')">
         <router-link v-for="item in items" :key="item.to" :to="item.to" class="nav-link" :class="{ active: isActive(item) }">{{ t(item.label) }}</router-link>
       </nav>
+      <a class="help" :href="`${landingPageUrl}#faq`" target="_blank" rel="noopener">
+        {{ t('shell.help') }}<i class="pi pi-external-link" aria-hidden="true"></i>
+      </a>
     </aside>
 
     <pv-drawer v-model:visible="drawer" :header="t('shell.workspace')" class="sidebar-drawer">
@@ -158,6 +163,24 @@ nav {
   color: #e2e8f0;
   font-size: 14px;
   font-weight: 500;
+}
+
+.help {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 10px 12px;
+  color: #cbd5e1;
+  font-size: 13px;
+}
+
+.help:hover {
+  color: #fff;
+}
+
+.help .pi {
+  font-size: 12px;
 }
 
 .nav-link:hover {
