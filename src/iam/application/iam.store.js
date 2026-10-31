@@ -123,12 +123,13 @@ const useIamStore = defineStore('iam', () => {
     /** Loads the users, role profiles and invitations shown in the users and profiles page. */
     function fetchDirectory() {
         loading.value = true;
-        fetchUsers();
-        iamApi.getRoleProfiles()
-            .then(response => roleProfiles.value = RoleProfileAssembler.toEntitiesFromResponse(response))
-            .catch(error => errors.value.push(error));
-        iamApi.getInvitations()
-            .then(response => invitations.value = InvitationAssembler.toEntitiesFromResponse(response))
+        Promise.all([iamApi.getUsers(), iamApi.getRoleProfiles(), iamApi.getInvitations()])
+            .then(([usersResponse, profilesResponse, invitationsResponse]) => {
+                users.value = UserAssembler.toEntitiesFromResponse(usersResponse)
+                    .filter(user => user.organizationId === currentUser.value?.organizationId);
+                roleProfiles.value = RoleProfileAssembler.toEntitiesFromResponse(profilesResponse);
+                invitations.value = InvitationAssembler.toEntitiesFromResponse(invitationsResponse);
+            })
             .catch(error => errors.value.push(error))
             .finally(() => loading.value = false);
     }
