@@ -2,6 +2,8 @@ import {BaseApi} from "../../shared/infrastructure/base-api.js";
 import {BaseEndpoint} from "../../shared/infrastructure/base-endpoint.js";
 
 const usersEndpointPath = import.meta.env.VITE_USERS_ENDPOINT_PATH;
+const roleProfilesEndpointPath = import.meta.env.VITE_ROLE_PROFILES_ENDPOINT_PATH;
+const invitationsEndpointPath = import.meta.env.VITE_INVITATIONS_ENDPOINT_PATH;
 
 /**
  * Infrastructure gateway for the IAM endpoints.
@@ -11,11 +13,15 @@ const usersEndpointPath = import.meta.env.VITE_USERS_ENDPOINT_PATH;
  */
 export class IamApi extends BaseApi {
     #usersEndpoint;
+    #roleProfilesEndpoint;
+    #invitationsEndpoint;
 
-    /** Creates the endpoint client for users. */
+    /** Creates the endpoint clients for users, role profiles and invitations. */
     constructor() {
         super();
         this.#usersEndpoint = new BaseEndpoint(this, usersEndpointPath);
+        this.#roleProfilesEndpoint = new BaseEndpoint(this, roleProfilesEndpointPath);
+        this.#invitationsEndpoint = new BaseEndpoint(this, invitationsEndpointPath);
     }
 
     /**
@@ -54,5 +60,30 @@ export class IamApi extends BaseApi {
      */
     getUsers() {
         return this.#usersEndpoint.getAll();
+    }
+
+    /**
+     * Retrieves the role profiles of the role-based access control.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the role profile resources.
+     */
+    getRoleProfiles() {
+        return this.#roleProfilesEndpoint.getAll();
+    }
+
+    /**
+     * Retrieves the invitations sent by the administrator.
+     * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the invitation resources.
+     */
+    getInvitations() {
+        return this.#invitationsEndpoint.getAll();
+    }
+
+    /**
+     * Sends an invitation to a new member of the team.
+     * @param {Object} resource - Invitation resource built by the InvitationAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the created invitation.
+     */
+    createInvitation(resource) {
+        return this.#invitationsEndpoint.create(resource);
     }
 }
