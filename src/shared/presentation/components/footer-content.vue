@@ -17,8 +17,8 @@ const landingPageUrl = import.meta.env.VITE_LANDING_PAGE_URL;
 <template>
   <!-- Main footer section with responsive layout and padding -->
   <footer class="footer flex flex-column md:flex-row justify-content-between gap-2 px-4 py-3">
-    <!-- Copyright notice rendered using internationalization -->
-    <p>{{ t('footer.copyright') }}</p>
+    <!-- Copyright notice, or the session status provided by the workspace -->
+    <p><slot>{{ t('footer.copyright') }}</slot></p>
 
     <!-- Legal links navigation container with dynamic accessibility label -->
     <nav class="flex gap-4" :aria-label="t('shell.legal')">
