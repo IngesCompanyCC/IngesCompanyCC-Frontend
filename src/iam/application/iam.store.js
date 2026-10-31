@@ -2,6 +2,8 @@ import {defineStore} from "pinia";
 import {computed, ref} from "vue";
 import {IamApi} from "../infrastructure/iam-api.js";
 import {UserAssembler} from "../infrastructure/user.assembler.js";
+import {RoleProfileAssembler} from "../infrastructure/role-profile.assembler.js";
+import {InvitationAssembler} from "../infrastructure/invitation.assembler.js";
 import {User} from "../domain/model/user.entity.js";
 import {SignInCommand} from "../domain/model/sign-in.command.js";
 import {homeOf} from "../../shared/presentation/workspace-environments.js";
@@ -50,6 +52,12 @@ const useIamStore = defineStore('iam', () => {
     const users = ref([]);
     /** @type {import('vue').ComputedRef<Array>} Users of the organization with an active account. */
     const activeUsers = computed(() => users.value.filter(user => user.status === 'active'));
+    /** @type {import('vue').Ref<Array<import('../domain/model/role-profile.entity.js').RoleProfile>>} Role profiles of the access control. */
+    const roleProfiles = ref([]);
+    /** @type {import('vue').Ref<Array<import('../domain/model/invitation.entity.js').Invitation>>} Invitations sent by the administrator. */
+    const invitations = ref([]);
+    /** @type {import('vue').ComputedRef<Array>} Invitations that were not accepted yet. */
+    const pendingInvitations = computed(() => invitations.value.filter(invitation => invitation.status === 'pending'));
 
     /**
      * Validates the credentials of the command. A valid user continues to the two-factor step.
@@ -110,6 +118,48 @@ const useIamStore = defineStore('iam', () => {
             .then(response => users.value = UserAssembler.toEntitiesFromResponse(response)
                 .filter(user => user.organizationId === currentUser.value?.organizationId))
             .catch(error => errors.value.push(error));
+    }
+
+    /** Loads the users, role profiles and invitations shown in the users and profiles page. */
+    function fetchDirectory() {
+        loading.value = true;
+        fetchUsers();
+        iamApi.getRoleProfiles()
+            .then(response => roleProfiles.value = RoleProfileAssembler.toEntitiesFromResponse(response))
+            .catch(error => errors.value.push(error));
+        iamApi.getInvitations()
+            .then(response => invitations.value = InvitationAssembler.toEntitiesFromResponse(response))
+            .catch(error => errors.value.push(error))
+            .finally(() => loading.value = false);
+    }
+
+    /**
+     * Checks whether a user or a pending invitation already uses the email.
+     * @param {string} email - Email to check.
+     * @returns {boolean} True when the email is already taken.
+     */
+    function isEmailTaken(email) {
+        const normalized = email.trim().toLowerCase();
+        return users.value.some(user => user.email.toLowerCase() === normalized)
+            || invitations.value.some(invitation => invitation.email.toLowerCase() === normalized);
+    }
+
+    /**
+     * Sends an invitation and returns to the invitations of the users and profiles page.
+     * @param {import('../domain/model/invitation.entity.js').Invitation} invitation - The invitation to send.
+     * @param {import('vue-router').Router} router - Router used to return to the user directory.
+     */
+    function addInvitation(invitation, router) {
+        loading.value = true;
+        const {id, ...resource} = InvitationAssembler.toResourceFromEntity(invitation);
+        iamApi.createInvitation(resource)
+            .then(response => {
+                const created = InvitationAssembler.toEntityFromResource(response.data);
+                invitations.value.push(created);
+                router.push({ path: '/administration/users', query: { tab: 'invitations', sent: created.email } });
+            })
+            .catch(error => errors.value.push(error))
+            .finally(() => loading.value = false);
     }
 
     /**
@@ -178,7 +228,13 @@ const useIamStore = defineStore('iam', () => {
         isSignedIn,
         users,
         activeUsers,
+        roleProfiles,
+        invitations,
+        pendingInvitations,
         fetchUsers,
+        fetchDirectory,
+        isEmailTaken,
+        addInvitation,
         registerAdministrator,
         verifyPassword,
         signIn,

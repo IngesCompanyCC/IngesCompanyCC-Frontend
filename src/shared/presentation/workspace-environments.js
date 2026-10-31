@@ -46,6 +46,7 @@ export const workspaceEnvironments = {
         features: ['organization-plants', 'users-roles', 'subscription-payments', 'profile-preferences'],
         navigation: [
             { to: '/administration/overview', label: 'nav.administration-overview' },
+            { to: '/administration/users', label: 'nav.users-profiles' },
             { to: '/administration/subscription', label: 'nav.subscription-payments' },
             { to: '/administration/audit-trail', label: 'nav.audit-trail' },
             { to: '/administration/tasks', label: 'nav.tasks' }
