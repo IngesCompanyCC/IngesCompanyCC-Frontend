@@ -156,6 +156,7 @@ In the Landing Page repository (`IngesCompanyCC-LandingPage`), set `WEB_APP_URL`
 | Cobades Zamora, Yhoshua Hebert | [YhoshuaCZ](https://github.com/YhoshuaCZ) |
 | Rojas Ambicho, Nestor Daniel | [danRO-20](https://github.com/danRO-20) |
 | Yarleque Ruiz, Cristina Marcela | [Cris06luna](https://github.com/Cris06luna) |
-| Zavaleta Gutierrez, Rodolfo Martin | [Rodolxde](https://github.com/Rodolxde) |
+| Zavaleta Gutierrez, Rodolfo Martin | [gutierrezrodolfo360-bit](https://github.com/gutierrezrodolfo360-bit) |
 
 UPC · Ingeniería de Software · 1ASI0730 Aplicaciones Web · 2026-20
+
