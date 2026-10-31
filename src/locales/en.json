@@ -12,7 +12,14 @@
     "cancel": "Cancel",
     "status": "Status",
     "filters": "Filters",
-    "profile": "Profile & preferences"
+    "profile": "Profile & preferences",
+    "back-to-doofplus": "Back to DoofPlus",
+    "all-environments": "All environments",
+    "back-to-sign-in": "Back to sign in",
+    "help": "Help & documentation",
+    "search": "Search batches, documents, people",
+    "utc": "All times UTC",
+    "role-based": "Role-based permissions"
   },
   "nav": {
     "production-overview": "Production overview",
@@ -559,7 +566,8 @@
       "verify-title": "Check your email",
       "verify-text": "We sent a verification link to {email}. Open it to activate the workspace; then sign in and enroll two-factor authentication.",
       "go-sign-in": "Go to sign in",
-      "your-email": "your email"
+      "your-email": "your email",
+      "leave-confirm": "Leave the registration? The data you entered will be lost."
     },
     "profile": {
       "my-account": "My account",
