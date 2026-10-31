@@ -97,6 +97,86 @@
       "plant": "Ate plant"
     }
   ],
+  "role-profiles": [
+    {
+      "id": 1,
+      "key": "qa-specialist",
+      "name": "QA Specialist",
+      "createEdit": [
+        "Documents",
+        "CAPA"
+      ],
+      "approveSign": "Release if authorized",
+      "restriction": "No billing access",
+      "tone": "teal"
+    },
+    {
+      "id": 2,
+      "key": "production-supervisor",
+      "name": "Production Supervisor",
+      "createEdit": [
+        "Orders",
+        "Incidents"
+      ],
+      "approveSign": "Production records",
+      "restriction": "Cannot release batch",
+      "tone": "purple"
+    },
+    {
+      "id": 3,
+      "key": "quality-manager",
+      "name": "Quality Manager",
+      "createEdit": [
+        "Documents"
+      ],
+      "approveSign": "Approve documents and CAPA",
+      "restriction": "Cannot approve own records",
+      "tone": "pink"
+    },
+    {
+      "id": 4,
+      "key": "internal-auditor",
+      "name": "Internal Auditor",
+      "createEdit": [],
+      "approveSign": "None",
+      "restriction": "Read-only evidence",
+      "tone": "neutral"
+    },
+    {
+      "id": 5,
+      "key": "administrator",
+      "name": "Administrator",
+      "createEdit": [
+        "Users",
+        "Plans"
+      ],
+      "approveSign": "None",
+      "restriction": "No QA release or signing",
+      "tone": "neutral"
+    }
+  ],
+  "invitations": [
+    {
+      "id": 1,
+      "fullName": "Óscar Ramos",
+      "email": "oscar.ramos@andinos.com.pe",
+      "role": "internal-auditor",
+      "facility": "Ate manufacturing",
+      "note": "Please review the Q4 audit evidence package.",
+      "status": "pending",
+      "sentAt": "2026-10-05T14:00:00Z"
+    },
+    {
+      "id": 2,
+      "fullName": "Jorge Salas",
+      "email": "jorge.salas@andinos.com.pe",
+      "role": "production-supervisor",
+      "facility": "Ate manufacturing",
+      "note": "",
+      "status": "pending",
+      "sentAt": "2026-10-06T09:30:00Z"
+    }
+  ],
   "products": [
     {
       "id": 1,
