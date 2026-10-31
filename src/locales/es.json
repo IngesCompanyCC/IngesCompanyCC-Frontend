@@ -12,7 +12,14 @@
     "cancel": "Cancelar",
     "status": "Estado",
     "filters": "Filtros",
-    "profile": "Perfil y preferencias"
+    "profile": "Perfil y preferencias",
+    "back-to-doofplus": "Volver a DoofPlus",
+    "all-environments": "Todos los entornos",
+    "back-to-sign-in": "Volver al inicio de sesión",
+    "help": "Ayuda y documentación",
+    "search": "Buscar lotes, documentos, personas",
+    "utc": "Horas en UTC",
+    "role-based": "Permisos por rol"
   },
   "nav": {
     "production-overview": "Resumen de producción",
@@ -105,8 +112,6 @@
       "overline": "Iniciar sesión",
       "title": "Inicia sesión en DoofPlus",
       "subtitle": "Elige el entorno en el que trabajas. Cada entorno muestra los módulos y aprobaciones de su rol.",
-      "not-customer": "¿Aún no eres cliente?",
-      "see-plans": "Ver planes",
       "new-laboratory": "¿Laboratorio nuevo?",
       "register": "Registra tu organización"
     },
@@ -559,7 +564,8 @@
       "verify-title": "Revisa tu correo",
       "verify-text": "Enviamos un enlace de verificación a {email}. Ábrelo para activar el espacio; luego inicia sesión y registra la autenticación de dos pasos.",
       "go-sign-in": "Ir a iniciar sesión",
-      "your-email": "tu correo"
+      "your-email": "tu correo",
+      "leave-confirm": "¿Salir del registro? Se perderán los datos ingresados."
     },
     "profile": {
       "my-account": "Mi cuenta",

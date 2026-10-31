@@ -1,6 +1,7 @@
 <script setup>
-import {computed, onMounted, reactive, ref} from "vue";
+import {computed, onBeforeUnmount, onMounted, reactive, ref} from "vue";
 import {useI18n} from "vue-i18n";
+import {onBeforeRouteLeave} from "vue-router";
 import LanguageSwitcher from "../../../../shared/presentation/components/language-switcher.vue";
 import {formatCurrency} from "../../../../shared/presentation/format.js";
 import useOrganizationsStore from "../../../application/organizations.store.js";
@@ -21,11 +22,30 @@ const introItems = ['qa', 'production', 'access', 'permissions'];
 /** Plants offered as primary plant. */
 const plants = ['Ate plant · Lima, Peru', 'Lima QC laboratory · Lima, Peru', 'Arequipa plant · Arequipa, Peru'];
 
-/** Registration form. */
-const form = reactive({
+/** Initial values of the registration form. */
+const initialForm = {
   legalName: '', ruc: '', facilityName: plants[0], planKey: 'standard-lab', billingCycle: 'monthly',
   administratorName: '', administratorEmail: '', password: '', accepted: false
-});
+};
+/** Registration form. */
+const form = reactive({ ...initialForm });
+
+/** Whether the form has data that has not been registered yet. */
+const hasUnsavedChanges = () => store.registrationStep !== 'verification'
+    && Object.keys(initialForm).some(key => form[key] !== initialForm[key]);
+
+/** Asks for confirmation before leaving the registration with unsaved data. */
+onBeforeRouteLeave(() => !hasUnsavedChanges() || window.confirm(t('organizations.registration.leave-confirm')));
+
+/**
+ * Asks the browser to confirm when the tab is closed or reloaded with unsaved data.
+ * @param {BeforeUnloadEvent} event - Event raised before the page is unloaded.
+ */
+const warnBeforeUnload = (event) => {
+  if (hasUnsavedChanges()) event.preventDefault();
+};
+window.addEventListener('beforeunload', warnBeforeUnload);
+onBeforeUnmount(() => window.removeEventListener('beforeunload', warnBeforeUnload));
 /** Whether the form was submitted once, to show the validation messages. */
 const submitted = ref(false);
 /** Whether the plan options are open. */
@@ -93,6 +113,8 @@ const submit = () => {
   <div class="page-shell">
     <header class="top">
       <router-link to="/sign-in" :aria-label="t('shell.home')"><img src="/doofplus-wordmark.png" alt="DoofPlus"></router-link>
+      <router-link to="/sign-in" class="back"><i class="pi pi-arrow-left" aria-hidden="true"></i>{{ t('shell.back-to-sign-in') }}</router-link>
+      <span class="spacer"></span>
       <language-switcher/>
     </header>
 
@@ -105,8 +127,8 @@ const submit = () => {
           <p>{{ t(`organizations.registration.intro.${item}-text`) }}</p>
         </div>
         <nav class="intro-links" :aria-label="t('shell.legal')">
-          <a :href="`${landingPageUrl}privacy.html`">{{ t('footer.privacy') }}</a>
-          <a :href="`${landingPageUrl}terms.html`">{{ t('footer.terms') }}</a>
+          <a :href="`${landingPageUrl}privacy.html`" target="_blank" rel="noopener">{{ t('footer.privacy') }}</a>
+          <a :href="`${landingPageUrl}terms.html`" target="_blank" rel="noopener">{{ t('footer.terms') }}</a>
         </nav>
       </aside>
 
@@ -231,10 +253,21 @@ const submit = () => {
 .top {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 40px;
   height: 64px;
   padding: 0 64px;
   border-bottom: 1px solid var(--border);
+}
+
+.top .back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.top .spacer {
+  flex: 1 1 auto;
 }
 
 .top img {
@@ -549,6 +582,14 @@ const submit = () => {
   .plan {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .top {
+    gap: 16px;
+  }
+
+  .top .back {
+    display: none;
   }
 }
 </style>

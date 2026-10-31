@@ -17,16 +17,16 @@ const landingPageUrl = import.meta.env.VITE_LANDING_PAGE_URL;
 <template>
   <!-- Main footer section with responsive layout and padding -->
   <footer class="footer flex flex-column md:flex-row justify-content-between gap-2 px-4 py-3">
-    <!-- Copyright notice rendered using internationalization -->
-    <p>{{ t('footer.copyright') }}</p>
+    <!-- Copyright notice, or the session status provided by the workspace -->
+    <p><slot>{{ t('footer.copyright') }}</slot></p>
 
     <!-- Legal links navigation container with dynamic accessibility label -->
     <nav class="flex gap-4" :aria-label="t('shell.legal')">
       <!-- External link to the Terms and Conditions page -->
-      <a :href="`${landingPageUrl}terms.html`">{{ t('footer.terms') }}</a>
+      <a :href="`${landingPageUrl}terms.html`" target="_blank" rel="noopener">{{ t('footer.terms') }}</a>
 
       <!-- External link to the Privacy Policy page -->
-      <a :href="`${landingPageUrl}privacy.html`">{{ t('footer.privacy') }}</a>
+      <a :href="`${landingPageUrl}privacy.html`" target="_blank" rel="noopener">{{ t('footer.privacy') }}</a>
     </nav>
   </footer>
 </template>
