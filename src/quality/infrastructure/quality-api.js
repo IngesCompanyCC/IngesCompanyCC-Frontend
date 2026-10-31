@@ -127,6 +127,15 @@ export class QualityApi extends BaseApi {
     }
 
     /**
+     * Deletes an evidence resource.
+     * @param {number} id - Identifier of the evidence.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response of the deletion.
+     */
+    deleteEvidence(id) {
+        return this.#evidenceEndpoint.delete(id);
+    }
+
+    /**
      * Retrieves the capa plans.
      * @returns {Promise<import('axios').AxiosResponse<Array<Object>>>} HTTP response with the capa plans.
      */

@@ -931,7 +931,9 @@
       "assessment": "Evaluación de impacto de QA",
       "capa-linked": "CAPA vinculado",
       "release-decision": "Decisión de liberación",
-      "blocked-until": "Bloqueada hasta una disposición aprobada"
+      "blocked-until": "Bloqueada hasta una disposición aprobada",
+      "remove-evidence": "Quitar evidencia",
+      "toast-evidence-removed": "Evidencia eliminada."
     },
     "capa": {
       "title": "Plan CAPA",

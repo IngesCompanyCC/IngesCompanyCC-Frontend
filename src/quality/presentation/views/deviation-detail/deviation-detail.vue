@@ -2,6 +2,7 @@
 import {computed, reactive, ref, watch} from "vue";
 import {useRoute} from "vue-router";
 import {useI18n} from "vue-i18n";
+import {useToast} from "primevue/usetoast";
 import PageHeader from "../../../../shared/presentation/components/page-header.vue";
 import {formatDateTime} from "../../../../shared/presentation/format.js";
 import useQualityStore from "../../../application/quality.store.js";
@@ -10,6 +11,7 @@ import useQualityStore from "../../../application/quality.store.js";
  * Deviation investigation: summary, classification, containment, risk priority number, evidence and disposition.
  */
 const { t, locale } = useI18n();
+const toast = useToast();
 const route = useRoute();
 const store = useQualityStore();
 
@@ -63,6 +65,14 @@ const submit = () => {
 };
 
 const evidenceInput = ref();
+
+/**
+ * Removes evidence attached by mistake and confirms it.
+ * @param {Object} item - Evidence to remove.
+ */
+const removeEvidence = (item) => store.removeEvidence(item).then(removed => {
+  if (removed) toast.add({ severity: 'success', summary: t('quality.deviations.toast-evidence-removed'), life: 2500 });
+});
 /**
  * Attaches a file as evidence.
  * @param {Event} event - Change event of the file input.
@@ -154,6 +164,8 @@ const attach = (event) => {
                 <pv-button v-if="item.status === 'pending-review'" :label="t('quality.deviations.mark-reviewed')" severity="secondary" outlined size="small"
                            @click="store.reviewEvidence(item)"/>
                 <span v-else class="chip chip-success">{{ t(`quality.evidence-status.${item.status}`) }}</span>
+                <pv-button v-if="item.status !== 'reviewed'" icon="pi pi-trash" severity="danger" text rounded size="small"
+                           :aria-label="t('quality.deviations.remove-evidence')" @click="removeEvidence(item)"/>
               </div>
               <input ref="evidenceInput" type="file" accept=".csv,.jpg,.pdf,.xlsx" hidden @change="attach">
               <pv-button icon="pi pi-paperclip" :label="t('quality.deviations.attach')" text class="align-self-start" @click="evidenceInput.click()"/>
