@@ -415,7 +415,10 @@
       "verified": "Verified",
       "pending": "Pending",
       "request-inspection": "Request QC inspection",
-      "disposition-text": "A QA/QC specialist submits the analytical results and an authorized quality manager approves or rejects the lot. A rejection requires a reason and keeps the stock segregated."
+      "disposition-text": "A QA/QC specialist submits the analytical results and an authorized quality manager approves or rejects the lot. A rejection requires a reason and keeps the stock segregated.",
+      "toast-invalid": "Complete the required fields and attach the certificate of analysis (PDF).",
+      "toast-duplicate": "The internal lot code already exists.",
+      "toast-recorded": "Lot {code} was recorded and sent to sampling."
     },
     "overview": {
       "subtitle": "{name}, keep today's schedule moving with visibility into orders, batches and equipment.",
