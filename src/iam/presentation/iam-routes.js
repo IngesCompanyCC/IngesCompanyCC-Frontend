@@ -1,6 +1,7 @@
 const environmentSelection = () => import('./views/environment-selection.vue');
 const signInForm = () => import('./views/sign-in-form.vue');
 const userManagement = () => import('./views/user-management.vue');
+const invitationForm = () => import('./views/invitation-form.vue');
 
 /**
  * Public IAM routes: environment selection and sign-in to one environment.
@@ -14,7 +15,8 @@ const iamRoutes = [
  * Administration routes of the IAM bounded context: users, role profiles and invitations.
  */
 export const iamAdministrationRoutes = [
-    { path: 'users', name: 'user-management', component: userManagement, meta: { title: 'Users & profiles' } }
+    { path: 'users',        name: 'user-management', component: userManagement, meta: { title: 'Users & profiles' } },
+    { path: 'users/invite', name: 'invitation-form', component: invitationForm, meta: { title: 'Invite user' } }
 ];
 
 export default iamRoutes;
