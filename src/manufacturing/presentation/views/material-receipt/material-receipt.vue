@@ -1,6 +1,7 @@
 <script setup>
 import {computed, reactive, ref} from "vue";
 import {useI18n} from "vue-i18n";
+import {useToast} from "primevue/usetoast";
 import PageHeader from "../../../../shared/presentation/components/page-header.vue";
 import {formatDate} from "../../../../shared/presentation/format.js";
 import useManufacturingStore from "../../../application/manufacturing.store.js";
@@ -11,6 +12,7 @@ import {MaterialLot} from "../../../domain/model/material-lot.entity.js";
  */
 const { t, locale } = useI18n();
 const store = useManufacturingStore();
+const toast = useToast();
 
 /** Steps of the receipt flow. */
 const steps = ['receipt', 'sampling', 'inspection', 'disposition'];
@@ -63,10 +65,16 @@ const dispositionTone = (status) => status === 'approved' ? 'chip-success' : sta
 /** Records the receipt: the lot enters quarantine and moves to sampling. */
 const record = () => {
   submitted.value = true;
-  if (invalid.value) return;
+  if (invalid.value) {
+    toast.add({ severity: 'warn', summary: t('manufacturing.receipt.toast-invalid'), life: 4000 });
+    return;
+  }
   const code = form.code.trim();
   duplicateLot.value = store.materialLots.some(lot => lot.code === code);
-  if (duplicateLot.value) return;
+  if (duplicateLot.value) {
+    toast.add({ severity: 'error', summary: t('manufacturing.receipt.toast-duplicate'), life: 3000 });
+    return;
+  }
   store.addMaterialLot(new MaterialLot({
     code, receiptCode: code.replace('RM-', 'RCV-'), material: form.material,
     category: form.material.includes('API') ? 'api' : 'excipient', supplier: form.supplier, supplierLot: form.supplierLot,
@@ -74,6 +82,7 @@ const record = () => {
     status: 'sampling', packagingVerified: true, identityVerified: true, samplingStatus: 'pending', allocatedBatch: ''
   }));
   selectedCode.value = code;
+  toast.add({ severity: 'success', summary: t('manufacturing.receipt.toast-recorded', { code }), life: 4000 });
   Object.assign(form, emptyForm());
   submitted.value = false;
 };

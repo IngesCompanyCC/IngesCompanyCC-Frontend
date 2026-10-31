@@ -415,7 +415,10 @@
       "verified": "Verificado",
       "pending": "Pendiente",
       "request-inspection": "Solicitar inspección de QC",
-      "disposition-text": "Un especialista QA/QC registra los resultados analíticos y una jefa de calidad autorizada aprueba o rechaza el lote. El rechazo exige un motivo y mantiene el stock segregado."
+      "disposition-text": "Un especialista QA/QC registra los resultados analíticos y una jefa de calidad autorizada aprueba o rechaza el lote. El rechazo exige un motivo y mantiene el stock segregado.",
+      "toast-invalid": "Completa los campos obligatorios y adjunta el certificado de análisis (PDF).",
+      "toast-duplicate": "El código de lote interno ya existe.",
+      "toast-recorded": "El lote {code} se registró y se envió a muestreo."
     },
     "overview": {
       "subtitle": "{name}, mantén el plan de hoy en marcha con visibilidad de órdenes, lotes y equipos.",
