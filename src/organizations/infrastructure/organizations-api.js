@@ -5,6 +5,7 @@ const organizationsEndpointPath = import.meta.env.VITE_ORGANIZATIONS_ENDPOINT_PA
 const facilitiesEndpointPath = import.meta.env.VITE_FACILITIES_ENDPOINT_PATH;
 const userProfilesEndpointPath = import.meta.env.VITE_USER_PROFILES_ENDPOINT_PATH;
 const administrativeActivitiesEndpointPath = import.meta.env.VITE_ADMINISTRATIVE_ACTIVITIES_ENDPOINT_PATH;
+const contactInquiriesEndpointPath = import.meta.env.VITE_CONTACT_INQUIRIES_ENDPOINT_PATH;
 
 /**
  * Infrastructure gateway for the Organization Management endpoints.
@@ -17,6 +18,7 @@ export class OrganizationsApi extends BaseApi {
     #facilitiesEndpoint;
     #userProfilesEndpoint;
     #administrativeActivitiesEndpoint;
+    #contactInquiriesEndpoint;
 
     /** Creates one endpoint client per collection. */
     constructor() {
@@ -25,6 +27,7 @@ export class OrganizationsApi extends BaseApi {
         this.#facilitiesEndpoint = new BaseEndpoint(this, facilitiesEndpointPath);
         this.#userProfilesEndpoint = new BaseEndpoint(this, userProfilesEndpointPath);
         this.#administrativeActivitiesEndpoint = new BaseEndpoint(this, administrativeActivitiesEndpointPath);
+        this.#contactInquiriesEndpoint = new BaseEndpoint(this, contactInquiriesEndpointPath);
     }
 
     /**
@@ -120,5 +123,14 @@ export class OrganizationsApi extends BaseApi {
      */
     createAdministrativeActivity(resource) {
         return this.#administrativeActivitiesEndpoint.create(resource);
+    }
+
+    /**
+     * Creates a contact inquiry resource.
+     * @param {Object} resource - Resource built by the ContactInquiryAssembler.
+     * @returns {Promise<import('axios').AxiosResponse<Object>>} HTTP response with the saved resource.
+     */
+    createContactInquiry(resource) {
+        return this.#contactInquiriesEndpoint.create(resource);
     }
 }
