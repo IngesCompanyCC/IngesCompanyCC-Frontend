@@ -5,8 +5,10 @@ import {OrganizationAssembler} from "../infrastructure/organization.assembler.js
 import {FacilityAssembler} from "../infrastructure/facility.assembler.js";
 import {UserProfileAssembler} from "../infrastructure/user-profile.assembler.js";
 import {AdministrativeActivityAssembler} from "../infrastructure/administrative-activity.assembler.js";
+import {ContactInquiryAssembler} from "../infrastructure/contact-inquiry.assembler.js";
 import {Organization} from "../domain/model/organization.entity.js";
 import {Facility} from "../domain/model/facility.entity.js";
+import {ContactInquiry} from "../domain/model/contact-inquiry.entity.js";
 import useIamStore from "../../iam/application/iam.store.js";
 import useSubscriptionsStore from "../../subscriptions/application/subscriptions.store.js";
 
@@ -15,7 +17,7 @@ const organizationsApi = new OrganizationsApi();
 /**
  * Application service store for the Organization Management bounded context.
  * It holds the organization of the signed-in user, its facilities, the user profiles and the administrative
- * activity, and registers new organizations with their plan and first administrator.
+ * activity, registers new organizations with their plan and first administrator, and receives the contact inquiries.
  *
  * @returns {Object} Store state and actions.
  */
@@ -36,6 +38,11 @@ const useOrganizationsStore = defineStore('organizations', () => {
      * @type {import('vue').Ref<string>}
      */
     const registrationStep = ref('form');
+    /**
+     * Current step of the Contact us form: form or sent.
+     * @type {import('vue').Ref<string>}
+     */
+    const contactStep = ref('form');
     /** @type {import('vue').Ref<boolean>} Whether a request is running. */
     const loading = ref(false);
     /** @type {import('vue').Ref<Array<Error>>} Errors of the last requests. */
@@ -137,19 +144,43 @@ const useOrganizationsStore = defineStore('organizations', () => {
         registrationStep.value = 'form';
     }
 
+    /**
+     * Sends a contact inquiry from the Contact us form; it is received with the received status.
+     * @param {{fullName: string, email: string, message: string}} inquiry - Data entered by the visitor.
+     * @returns {Promise<void>} Resolves when the inquiry was saved.
+     */
+    function sendContactInquiry({fullName, email, message}) {
+        loading.value = true;
+        const resource = ContactInquiryAssembler.toResourceFromEntity(new ContactInquiry({
+            fullName, email, message, status: 'received', receivedAt: new Date().toISOString()
+        }));
+        return organizationsApi.createContactInquiry(resource)
+            .then(() => contactStep.value = 'sent')
+            .catch(error => errors.value.push(error))
+            .finally(() => loading.value = false);
+    }
+
+    /** Returns the Contact us form to its first step. */
+    function resetContact() {
+        contactStep.value = 'form';
+    }
+
     return {
         organization,
         facilities,
         activities,
         currentProfile,
         registrationStep,
+        contactStep,
         loading,
         errors,
         fetchOrganization,
         fetchProfiles,
         updateProfile,
         register,
-        resetRegistration
+        resetRegistration,
+        sendContactInquiry,
+        resetContact
     };
 });
 
