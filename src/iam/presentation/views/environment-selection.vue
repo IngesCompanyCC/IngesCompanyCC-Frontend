@@ -41,6 +41,10 @@ const environments = Object.values(workspaceEnvironments).map(item => ({...item,
       <strong>{{ t('iam.selection.new-laboratory') }}</strong>
       <router-link :to="{ name: 'organization-registration' }">{{ t('iam.selection.register') }} →</router-link>
     </p>
+    <p class="links">
+      <strong>{{ t('iam.selection.questions') }}</strong>
+      <router-link :to="{ name: 'contact-us' }">{{ t('shell.contact-us') }} →</router-link>
+    </p>
   </section>
 </template>
 

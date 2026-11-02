@@ -19,7 +19,9 @@
     "help": "Ayuda y documentación",
     "search": "Buscar lotes, documentos, personas",
     "utc": "Horas en UTC",
-    "role-based": "Permisos por rol"
+    "role-based": "Permisos por rol",
+    "contact-us": "Contáctanos",
+    "_q": "¿Dudas sobre DoofPlus?"
   },
   "nav": {
     "production-overview": "Resumen de producción",
@@ -113,7 +115,8 @@
       "title": "Inicia sesión en DoofPlus",
       "subtitle": "Elige el entorno en el que trabajas. Cada entorno muestra los módulos y aprobaciones de su rol.",
       "new-laboratory": "¿Laboratorio nuevo?",
-      "register": "Registra tu organización"
+      "register": "Registra tu organización",
+      "questions": "¿Dudas sobre DoofPlus?"
     },
     "sign-in": {
       "title": "Inicia sesión en el entorno {environment}",
@@ -622,6 +625,36 @@
       "access-review-text": "{count} usuarios por revisar",
       "review-access": "Revisar accesos",
       "activity": "Actividad administrativa"
+    },
+    "contact": {
+      "overline": "Contáctanos",
+      "title": "Envíanos tu consulta",
+      "subtitle": "Cuéntanos sobre tu laboratorio y lo que necesitas. El equipo de DoofPlus te responde por correo.",
+      "panel-title": "Habla con el equipo de DoofPlus",
+      "panel-text": "¿Dudas sobre los planes, una demo guiada o cómo DoofPlus apoya el cumplimiento de DIGEMID y BPM? Estamos para ayudarte.",
+      "topics": {
+        "plans": "Planes y precios para tu laboratorio",
+        "demo": "Una demo guiada para tus equipos de Calidad y Producción",
+        "compliance": "Cumplimiento de DIGEMID y BPM",
+        "support": "Soporte técnico e incorporación"
+      },
+      "channels": {
+        "email": "Correo",
+        "phone": "Teléfono",
+        "location": "Oficina"
+      },
+      "full-name": "Nombre completo",
+      "full-name-error": "Ingresa tu nombre completo.",
+      "email": "Correo de trabajo",
+      "email-error": "Ingresa un correo válido.",
+      "message": "Tu consulta",
+      "message-placeholder": "¿Cómo podemos ayudar a tu laboratorio?",
+      "message-error": "Escribe tu consulta.",
+      "send": "Enviar consulta",
+      "privacy": "Solo usamos tus datos para responder esta consulta.",
+      "sent-title": "Consulta recibida",
+      "sent-text": "Gracias. Registramos tu consulta y te responderemos a {email}.",
+      "send-another": "Enviar otra consulta"
     }
   },
   "monitoring": {

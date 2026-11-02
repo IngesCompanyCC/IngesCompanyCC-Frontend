@@ -745,6 +745,16 @@
       "status": "declined"
     }
   ],
+  "contact-inquiries": [
+    {
+      "id": 1,
+      "fullName": "Lucía Paredes",
+      "email": "lucia.paredes@labandino.com.pe",
+      "message": "We have two plants in Lima. Does the Standard Lab plan cover both, or do we need Enterprise?",
+      "status": "answered",
+      "receivedAt": "2026-10-20T15:10:00Z"
+    }
+  ],
   "organizations": [
     {
       "id": 1,

@@ -40,8 +40,12 @@ const isEntryPage = computed(() => route.path === '/sign-in');
         <router-link v-else to="/sign-in" class="back"><i class="pi pi-arrow-left" aria-hidden="true"></i>{{ t('shell.all-environments') }}</router-link>
       </div>
 
-      <!-- Component for switching application language -->
-      <language-switcher/>
+      <div class="flex align-items-center gap-4">
+        <!-- Contact us form of the DoofPlus team (US04) -->
+        <router-link :to="{ name: 'contact-us' }" class="contact-link"><i class="pi pi-envelope" aria-hidden="true"></i>{{ t('shell.contact-us') }}</router-link>
+        <!-- Component for switching application language -->
+        <language-switcher/>
+      </div>
     </header>
 
     <!-- Main content container targeted by the skip link -->
@@ -91,7 +95,8 @@ const isEntryPage = computed(() => route.path === '/sign-in');
   outline: none;
 }
 
-.back {
+.back,
+.contact-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
