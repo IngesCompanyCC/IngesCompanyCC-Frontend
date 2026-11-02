@@ -19,7 +19,9 @@
     "help": "Help & documentation",
     "search": "Search batches, documents, people",
     "utc": "All times UTC",
-    "role-based": "Role-based permissions"
+    "role-based": "Role-based permissions",
+    "contact-us": "Contact us",
+    "_q": "Questions about DoofPlus?"
   },
   "nav": {
     "production-overview": "Production overview",
@@ -113,7 +115,8 @@
       "title": "Sign in to DoofPlus",
       "subtitle": "Choose the environment you work in. Each environment shows the modules and approvals of its role.",
       "new-laboratory": "New laboratory?",
-      "register": "Register your organization"
+      "register": "Register your organization",
+      "questions": "Questions about DoofPlus?"
     },
     "sign-in": {
       "title": "Sign in to the {environment} environment",
@@ -622,6 +625,36 @@
       "access-review-text": "{count} users due",
       "review-access": "Review access",
       "activity": "Administrative activity"
+    },
+    "contact": {
+      "overline": "Contact us",
+      "title": "Send us your question",
+      "subtitle": "Tell us about your laboratory and what you need. The DoofPlus team answers by email.",
+      "panel-title": "Talk to the DoofPlus team",
+      "panel-text": "Questions about plans, a guided demo or how DoofPlus supports DIGEMID and GMP compliance? We are here to help.",
+      "topics": {
+        "plans": "Plans and pricing for your laboratory",
+        "demo": "A guided demo for your QA and Production teams",
+        "compliance": "DIGEMID and GMP compliance",
+        "support": "Technical support and onboarding"
+      },
+      "channels": {
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Office"
+      },
+      "full-name": "Full name",
+      "full-name-error": "Enter your full name.",
+      "email": "Work email",
+      "email-error": "Enter a valid email address.",
+      "message": "Your question",
+      "message-placeholder": "How can we help your laboratory?",
+      "message-error": "Write your question.",
+      "send": "Send inquiry",
+      "privacy": "We only use your data to answer this inquiry.",
+      "sent-title": "Inquiry received",
+      "sent-text": "Thank you. We registered your inquiry and will answer you at {email}.",
+      "send-another": "Send another inquiry"
     }
   },
   "monitoring": {
