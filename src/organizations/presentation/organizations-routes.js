@@ -1,12 +1,20 @@
 const organizationRegistration = () => import('./views/organization-registration/organization-registration.vue');
 const administrationOverview = () => import('./views/administration-overview/administration-overview.vue');
 const profilePreferences = () => import('./views/profile-preferences/profile-preferences.vue');
+const contactUs = () => import('./views/contact-us/contact-us.vue');
 
 /**
  * Public route of the organization registration.
  */
 export const organizationsPublicRoutes = [
     { path: '', name: 'organization-registration', component: organizationRegistration, meta: { title: 'Organization registration' } }
+];
+
+/**
+ * Public route of the Contact us form, shown in the public layout next to the sign-in.
+ */
+export const organizationsContactRoutes = [
+    { path: '', name: 'contact-us', component: contactUs, meta: { title: 'Contact us' } }
 ];
 
 /**
