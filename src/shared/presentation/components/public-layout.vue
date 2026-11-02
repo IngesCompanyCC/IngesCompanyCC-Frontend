@@ -42,7 +42,7 @@ const isEntryPage = computed(() => route.path === '/sign-in');
 
       <div class="flex align-items-center gap-4">
         <!-- Contact us form of the DoofPlus team (US04) -->
-        <router-link :to="{ name: 'contact-us' }" class="contact-link"><i class="pi pi-envelope" aria-hidden="true"></i>{{ t('shell.contact-us') }}</router-link>
+        <router-link :to="{ name: 'contact-us' }" class="contact-link" :aria-label="t('shell.contact-us')"><i class="pi pi-envelope" aria-hidden="true"></i><span class="contact-label">{{ t('shell.contact-us') }}</span></router-link>
         <!-- Component for switching application language -->
         <language-switcher/>
       </div>
@@ -104,7 +104,8 @@ const isEntryPage = computed(() => route.path === '/sign-in');
 }
 
 @media (max-width: 576px) {
-  .back {
+  .back,
+  .contact-label {
     display: none;
   }
 }
