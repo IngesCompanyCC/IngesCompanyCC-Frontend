@@ -20,7 +20,12 @@ export const workspaceEnvironments = {
             { to: '/qa/regulatory-reports', label: 'nav.regulatory-reports' },
             { to: '/qa/audit-trail', label: 'nav.audit-trail' },
             { to: '/qa/tasks', label: 'nav.tasks' }
-        ]
+        ],
+        search: [
+            { endpoint: import.meta.env.VITE_QUALITY_DOCUMENTS_ENDPOINT_PATH, route: '/qa/documents?code={code}' },
+            { endpoint: import.meta.env.VITE_BATCHES_ENDPOINT_PATH, route: '/qa/batch-release?code={code}' }
+        ],
+        searchExample: 'SOP-QA-014'
     },
     production: {
         key: 'production',
@@ -37,7 +42,13 @@ export const workspaceEnvironments = {
             { to: '/production/equipment', label: 'nav.equipment-sensors' },
             { to: '/production/incidents', label: 'nav.incidents' },
             { to: '/production/tasks', label: 'nav.tasks' }
-        ]
+        ],
+        search: [
+            { endpoint: import.meta.env.VITE_BATCHES_ENDPOINT_PATH, route: '/production/batches/{code}' },
+            { endpoint: import.meta.env.VITE_PRODUCTION_ORDERS_ENDPOINT_PATH, route: '/production/orders/{code}' },
+            { endpoint: import.meta.env.VITE_SENSORS_ENDPOINT_PATH, route: '/production/sensors/{code}' }
+        ],
+        searchExample: 'B-26041'
     },
     administration: {
         key: 'administration',
@@ -50,7 +61,9 @@ export const workspaceEnvironments = {
             { to: '/administration/subscription', label: 'nav.subscription-payments' },
             { to: '/administration/audit-trail', label: 'nav.audit-trail' },
             { to: '/administration/tasks', label: 'nav.tasks' }
-        ]
+        ],
+        search: [],
+        searchExample: ''
     }
 };
 

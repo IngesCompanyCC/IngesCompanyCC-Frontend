@@ -21,7 +21,11 @@
     "utc": "All times UTC",
     "role-based": "Role-based permissions",
     "contact-us": "Contact us",
-    "_q": "Questions about DoofPlus?"
+    "_q": "Questions about DoofPlus?",
+    "search-qa": "Search by document or batch code",
+    "search-production": "Search by batch, order or sensor code",
+    "search-empty": "No record with the code {code}. Enter the exact code, for example {example}.",
+    "close": "Close"
   },
   "nav": {
     "production-overview": "Production overview",
