@@ -21,7 +21,11 @@
     "utc": "Horas en UTC",
     "role-based": "Permisos por rol",
     "contact-us": "Contáctanos",
-    "_q": "¿Dudas sobre DoofPlus?"
+    "_q": "¿Dudas sobre DoofPlus?",
+    "search-qa": "Buscar por código de documento o de lote",
+    "search-production": "Buscar por código de lote, orden o sensor",
+    "search-empty": "No hay registros con el código {code}. Ingresa el código exacto, por ejemplo {example}.",
+    "close": "Cerrar"
   },
   "nav": {
     "production-overview": "Resumen de producción",

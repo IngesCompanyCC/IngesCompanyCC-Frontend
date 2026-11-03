@@ -1,5 +1,6 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
+import {useRoute} from "vue-router";
 import {useI18n} from "vue-i18n";
 import PageHeader from "../../../../shared/presentation/components/page-header.vue";
 import {formatNumber} from "../../../../shared/presentation/format.js";
@@ -11,6 +12,7 @@ import useIamStore from "../../../../iam/application/iam.store.js";
  * Batch release: the six readiness checks of a batch and the QA electronic signature with re-authentication.
  */
 const { t, locale } = useI18n();
+const route = useRoute();
 const store = useQualityStore();
 const manufacturingStore = useManufacturingStore();
 const iamStore = useIamStore();
@@ -21,7 +23,10 @@ const queue = computed(() => manufacturingStore.batches
 const queueOptions = computed(() => queue.value.map(item => ({ label: `${item.code} · ${t(`manufacturing.batch-status.${item.status}`)}`, value: item.code })));
 
 /** Code of the batch shown. */
-const code = ref('B-26038');
+const code = ref(route.query.code || 'B-26038');
+watch(() => route.query.code, (newCode) => {
+  if (newCode) select(newCode);
+});
 const batch = computed(() => manufacturingStore.batchByCode(code.value));
 /** Readiness checks of the batch. */
 const checks = computed(() => store.releaseChecks(code.value));

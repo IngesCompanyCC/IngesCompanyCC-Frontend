@@ -1,5 +1,6 @@
 <script setup>
-import {computed, ref} from "vue";
+import {computed, ref, watch} from "vue";
+import {useRoute} from "vue-router";
 import {useI18n} from "vue-i18n";
 import PageHeader from "../../../../shared/presentation/components/page-header.vue";
 import {formatDate} from "../../../../shared/presentation/format.js";
@@ -10,11 +11,15 @@ import useIamStore from "../../../../iam/application/iam.store.js";
  * Controlled documents: the version in review, its approval workflow with separation of duties and the version history.
  */
 const { t, locale } = useI18n();
+const route = useRoute();
 const store = useQualityStore();
 const iamStore = useIamStore();
 
 /** Code of the document shown. */
-const code = ref('SOP-QA-014');
+const code = ref(route.query.code || 'SOP-QA-014');
+watch(() => route.query.code, (newCode) => {
+  if (newCode) choose(newCode);
+});
 /** Codes of every controlled document. */
 const codes = computed(() => [...new Set(store.documents.map(item => item.code))]);
 /** Versions of the document, newest first. */
